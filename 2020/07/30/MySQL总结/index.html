@@ -1,0 +1,643 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="QingAn">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Structure Query Language(结构化查询语言)简称SQL，它被美国国家标准局(ANSI)确定为关系型数据库语言的美国标准，后被国际化标准组织(ISO)采纳为关系数据库语言的国际标准。数据库管理系统可以通过SQL管理数据库；定义和操作数据，维护数据的完整性和安全性。 ​">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL总结">
+<meta property="og:url" content="http://example.com/2020/07/30/MySQL%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="卿安的小屋">
+<meta property="og:description" content="Structure Query Language(结构化查询语言)简称SQL，它被美国国家标准局(ANSI)确定为关系型数据库语言的美国标准，后被国际化标准组织(ISO)采纳为关系数据库语言的国际标准。数据库管理系统可以通过SQL管理数据库；定义和操作数据，维护数据的完整性和安全性。 ​">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-30T06:30:58.000Z">
+<meta property="article:modified_time" content="2022-09-29T03:41:00.946Z">
+<meta property="article:author" content="QingAn">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="关系型数据库">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>MySQL总结 - 卿安的小屋</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>卿安的小屋</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="MySQL总结"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-07-30 14:30" pubdate>
+          2020年7月30日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">MySQL总结</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>Structure Query Language(结构化查询语言)简称SQL，它被美国国家标准局(ANSI)确定为关系型数据库语言的美国标准，后被国际化标准组织(ISO)采纳为关系数据库语言的国际标准。数据库管理系统可以通过SQL管理数据库；定义和操作数据，维护数据的完整性和安全性。</p>
+<p>​                                                                          </p>
+<h2 id="1-操作数据库database-x2F-DATABASE"><a href="#1-操作数据库database-x2F-DATABASE" class="headerlink" title="1.	 操作数据库	database&#x2F;DATABASE"></a>1.	 操作数据库	database&#x2F;DATABASE</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql">创建数据库: <span class="hljs-keyword">CREATE</span> DATABASE 数据库名;<br>删除数据库: <span class="hljs-keyword">DROP</span> DATABASE 数据库名;<br>查询所有数据库:  <span class="hljs-keyword">SHOW</span> DATABASES;<br></code></pre></td></tr></table></figure>
+
+<h2 id="2-操作表结构table-x2F-TABLE"><a href="#2-操作表结构table-x2F-TABLE" class="headerlink" title="2.	 操作表结构	table&#x2F;TABLE"></a>2.	 操作表结构	table&#x2F;TABLE</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql">创建表:  <span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> 表名 (字段名 数据类型, 字段名 数据类型);<br>删除表： <span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> 表名;<br>查询所有表: <span class="hljs-keyword">SHOW</span> TABLES;<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-添加修改和删除的操作"><a href="#3-添加修改和删除的操作" class="headerlink" title="3.	 添加修改和删除的操作"></a>3.	 添加修改和删除的操作</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 添加</span><br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> 表名 (字段名,字段名) <span class="hljs-keyword">VALUES</span> (值<span class="hljs-number">1</span>,值<span class="hljs-number">2</span>);<br><span class="hljs-comment">-- 修改</span><br><span class="hljs-keyword">UPDATE</span> 表名 <span class="hljs-keyword">SET</span> 字段名 <span class="hljs-operator">=</span> 新的值 <span class="hljs-keyword">WHERE</span> 条件;<br><span class="hljs-comment">-- 删除</span><br><span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">FROM</span> 表名 <span class="hljs-keyword">WHERE</span> 条件;<br></code></pre></td></tr></table></figure>
+
+<h2 id="4-简单查询数据"><a href="#4-简单查询数据" class="headerlink" title="4. 	简单查询数据"></a>4. 	简单查询数据</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> 表名;<br><br><span class="hljs-comment">-- 条件查询</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> 表名 <span class="hljs-keyword">WHERE</span> 条件;<br><br><span class="hljs-comment">-- 能够使用SQL语句进行排序</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> 表名 <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> 字段;<br><br><span class="hljs-comment">-- 能够使用聚合函数</span><br>COUNT: 统计个数;<br>SUM:   统计一列的总数;<br>MAX:   统计一列的最大值;<br>MIN:   统计一列的最小值;<br>AVG:   统计一列的平均值;<br><br><span class="hljs-keyword">SELECT</span> 聚合函数(字段名) <span class="hljs-keyword">FROM</span> 表名;<br><br><span class="hljs-comment">-- 能够使用SQL语句进行分组查询</span><br><span class="hljs-keyword">SELECT</span> 字段名,聚合函数(<span class="hljs-operator">*</span>) <span class="hljs-keyword">FROM</span> 表名 <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> 字段名;<br><br><span class="hljs-comment">-- 能够完成基本的分页查询</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> 表名 LIMIT 忽略的数量,显示的数量;<br></code></pre></td></tr></table></figure>
+
+<h2 id="5-添加主键、外键、唯一、非空约束"><a href="#5-添加主键、外键、唯一、非空约束" class="headerlink" title="5.	 添加主键、外键、唯一、非空约束"></a>5.	 添加主键、外键、唯一、非空约束</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql">主键约束: <span class="hljs-keyword">PRIMARY</span> KEY;<br>唯一约束: <span class="hljs-keyword">UNIQUE</span>;<br>非空约束: <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>;<br>外键约束: <span class="hljs-keyword">CONSTRAINT</span> 外键约束名 <span class="hljs-keyword">FOREIGN</span> KEY (外键字段名) <span class="hljs-keyword">REFERENCES</span> 主表(主键);<br></code></pre></td></tr></table></figure>
+
+<h2 id="6-多表之间的三种关系"><a href="#6-多表之间的三种关系" class="headerlink" title="6.	多表之间的三种关系"></a>6.	多表之间的三种关系</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql">一对多:   <span class="hljs-number">1</span>:m  <span class="hljs-number">1</span>:n;<br>一对一:   <span class="hljs-number">1</span>:<span class="hljs-number">1</span>;<br>多对多:   m:m;<br></code></pre></td></tr></table></figure>
+
+<h2 id="7-多表查询"><a href="#7-多表查询" class="headerlink" title="7.	多表查询"></a>7.	多表查询</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 能够使用内连接进行多表查询</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> 表<span class="hljs-number">1</span> <span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> 表<span class="hljs-number">2</span> <span class="hljs-keyword">ON</span> 表连接条件; <span class="hljs-comment">-- 查询两个表满足条件的数据</span><br><br><span class="hljs-comment">-- 能够使用左外连接和右外连接进行多表查询</span><br><span class="hljs-comment">-- 左外连接</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> 表<span class="hljs-number">1</span> <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">OUTER</span> <span class="hljs-keyword">JOIN</span> 表<span class="hljs-number">2</span> <span class="hljs-keyword">ON</span> 表连接条件 <span class="hljs-comment">-- 查询两个表满足条件的数据，还要查出左边表1不满足的数据</span><br><span class="hljs-comment">-- 右外连接</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> 表<span class="hljs-number">1</span> <span class="hljs-keyword">RIGHT</span> <span class="hljs-keyword">OUTER</span> <span class="hljs-keyword">JOIN</span> 表<span class="hljs-number">2</span> <span class="hljs-keyword">ON</span> 表连接条件 <span class="hljs-comment">-- 查询两个表满足条件的数据，还要查出右边表2不满足的数据</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="8-能够理解多表查询的规律"><a href="#8-能够理解多表查询的规律" class="headerlink" title="8.	能够理解多表查询的规律"></a>8.	能够理解多表查询的规律</h2><p>– 1.根绝需求，明确要查询的表;<br>– 2.找到表连接条件,去掉笛卡尔积;<br>– 3.后续的查询 </p>
+<h2 id="9-子查询"><a href="#9-子查询" class="headerlink" title="9.	子查询"></a>9.	子查询</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">一个查询的结果，作为另外一个查询的一部分<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> 表名 <span class="hljs-keyword">WHERE</span> 字段名 <span class="hljs-operator">=</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">MAX</span>(字段名) <span class="hljs-keyword">FROM</span> 表名 );<br></code></pre></td></tr></table></figure>
+
+<h2 id="10-理解事务的概念"><a href="#10-理解事务的概念" class="headerlink" title="10.	理解事务的概念"></a>10.	理解事务的概念</h2><p>把一组指令放在一个事务里面,要么同时成功,要么同时失败;</p>
+<h2 id="11-MySQL中使用事务"><a href="#11-MySQL中使用事务" class="headerlink" title="11.	MySQL中使用事务"></a>11.	MySQL中使用事务</h2><p>开启事务:  BEGIN &#x2F;  START TRANSACTION;<br>提交事务:  COMMIT;<br>回滚事务:  ROLLBACK;</p>
+<h2 id="–常用mysql–"><a href="#–常用mysql–" class="headerlink" title="–常用mysql–"></a>–常用mysql–</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs mysql">DML<br>插入数据: INSERT INTO 表名 (字段名1, 字段名2, 字段名3) VALUES (值1, 值2, 值3);<br>更新数据: UPDATE 表名 SET 字段名=新值 WHERE 条件;<br>删除数据: DELETE FROM 表名 WHERE 条件;<br><br><br>DQL<br>简单查询: SELECT 字段名1, 字段名2 FROM 表名;<br>条件查询: SELECT * FROM 表名 WHERE 条件;<br>模糊查询: SELECT * FROM 表名 WHERE 字段名 LIKE &#x27;%_&#x27;;<br>查询排序: SELECT * FROM 表名 WHERE 条件 ORDER BY 字段名 ASC|DESC;<br>查询分组: SELECT * FROM 表名 WHERE 条件 GROUP BY 字段;<br>聚合函数: SELECT COUNT(*), SUM(*), MAX(*), MIN(*), AVG(*) FROM 表名 WHERE 条件;<br><br><br>DDL<br>创建表: CREATE TABLE 表名(字段名1 字段类型1, 字段名2 字段类型2);<br>创建数据库: CREATE DATABASE 数据库名;<br>修改数据库: ALTER DATABASE 数据库名 DEFAULT CHARACTER SET 字符集;<br>查看所有数据库: SHOW DATABASES;<br>删除数据库: DROP DATABASE 数据库名;<br></code></pre></td></tr></table></figure>
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-chain-item">数据库</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">#数据库</a>
+      
+        <a href="/tags/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/">#关系型数据库</a>
+      
+        <a href="/tags/MySQL/">#MySQL</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>MySQL总结</div>
+      <div>http://example.com/2020/07/30/MySQL总结/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>QingAn</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年7月30日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/03/02/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/" title="Git常用命令总结">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Git常用命令总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/05/30/springboot%E6%80%BB%E7%BB%93/" title="Springboot总结">
+                        <span class="hidden-mobile">Springboot总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
