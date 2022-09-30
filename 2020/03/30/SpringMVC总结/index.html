@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
-  <link rel="icon" href="/img/fluid.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E5%B0%8F%E9%BB%84%E9%B8%AD.png">
+  <link rel="icon" href="/img/%E5%B0%8F%E9%BB%84%E9%B8%AD.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -23,16 +23,18 @@
 <meta property="og:site_name" content="卿安的小屋">
 <meta property="og:description" content="SpringMVC框架简单的介绍：springmvc是spring框架的一个模块，springmvc和spring无需通过中间整合层进行整合。springmvc是一个基于mvc的web框架。springmvc 表现层：方便前后端数据的传输Spring MVC 拥有控制器，作用跟Struts类似，接收外部请求，解析参数传给服务层MVC是指，C控制层，M模块层，V视图层这样的设计理念，而SSM框架里面">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20201119092856360.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L051bWJlcl9vbmVFbmdpbmVlcg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="http://example.com/images/20201119092856360.png">
 <meta property="article:published_time" content="2020-03-30T05:20:58.000Z">
-<meta property="article:modified_time" content="2022-09-29T03:31:54.115Z">
+<meta property="article:modified_time" content="2022-09-30T01:17:56.886Z">
 <meta property="article:author" content="QingAn">
 <meta property="article:tag" content="spring">
 <meta property="article:tag" content="SpringMVC">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20201119092856360.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L051bWJlcl9vbmVFbmdpbmVlcg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta name="twitter:image" content="http://example.com/images/20201119092856360.png">
   
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
   
   
   <title>SpringMVC总结 - 卿安的小屋</title>
@@ -73,7 +75,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":110,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -172,6 +174,18 @@
             </li>
           
         
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
@@ -194,7 +208,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -241,6 +255,14 @@
 
     
     
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
   </div>
 
 
@@ -278,7 +300,7 @@
               <div class="markdown-body">
                 
                 <p>SpringMVC框架简单的介绍：<br>springmvc是spring框架的一个模块，springmvc和spring无需通过中间整合层进行整合。<br>springmvc是一个基于mvc的web框架。<br>springmvc 表现层：方便前后端数据的传输<br>Spring MVC 拥有控制器，作用跟Struts类似，接收外部请求，解析参数传给服务层<br>MVC是指，C控制层，M模块层，V视图层这样的设计理念，而SSM框架里面SPRING MVC本身就是MVC框架，作用是帮助（某种意义上也可以 理解为约束）我们要按照MVC这样的设计来开发WEB项目，而另外两个框架spring主要是用作IOC,AOP等其他的一些设计原则，至于mybatis是用来方便操作数据库的，所以他们都在MV里面，至于V指的是展示部分，一般是指JSP，freemarks这种前提其实，和SSM就没有太大的关系了</p>
-<h2 id="springmvc项目运行流程"><a href="#springmvc项目运行流程" class="headerlink" title="springmvc项目运行流程"></a>springmvc项目运行流程</h2><h3 id="springmvc项目运行流程图"><a href="#springmvc项目运行流程图" class="headerlink" title="springmvc项目运行流程图"></a>springmvc项目运行流程图</h3><p><img src="https://img-blog.csdnimg.cn/20201119092856360.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L051bWJlcl9vbmVFbmdpbmVlcg==,size_16,color_FFFFFF,t_70#pic_center" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="springmvc项目运行流程"><a href="#springmvc项目运行流程" class="headerlink" title="springmvc项目运行流程"></a>springmvc项目运行流程</h2><h3 id="springmvc项目运行流程图"><a href="#springmvc项目运行流程图" class="headerlink" title="springmvc项目运行流程图"></a>springmvc项目运行流程图</h3><p><img src="/images/20201119092856360.png" srcset="/img/loading.gif" lazyload alt="(springmvc项目运行流程图)"></p>
 <h1 id="1-SpringMVC"><a href="#1-SpringMVC" class="headerlink" title="1.SpringMVC"></a><strong>1.SpringMVC</strong></h1><h2 id="1-Tomcat在启动时会创建这个类的对象"><a href="#1-Tomcat在启动时会创建这个类的对象" class="headerlink" title="1.Tomcat在启动时会创建这个类的对象"></a>1.Tomcat在启动时会创建这个类的对象</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// Tomcat在启动时会创建这个类的对象,运行在Servlet之前</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ServletConfigInitializer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractAnnotationConfigDispatcherServletInitializer</span> &#123;<br>    <span class="hljs-comment">// 加载Spring的配置类</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> Class&lt;?&gt;[] getRootConfigClasses() &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[<span class="hljs-number">0</span>];<br>    &#125;<br>    <span class="hljs-comment">// 加载SpringMVC的配置类</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> Class&lt;?&gt;[] getServletConfigClasses() &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[] &#123;SpringMvcConfig.class&#125;;<br>    &#125;<br>    <span class="hljs-comment">// 哪些请求有SpringMVC来处理, / 表示所有请求都由SpringMVC来处理</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> String[] getServletMappings() &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[] &#123;<span class="hljs-string">&quot;/&quot;</span>&#125;;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 
@@ -463,6 +485,34 @@
             </div>
 
             
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"CUuWA2AIzpwKyFgvwcacCbi4-gzGzoHsz","appKey":"mQkVUzfrR2cCGeAOkvoTiKEY","path":"window.location.pathname","placeholder":"欢迎评论~~","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
           </article>
         </div>
       </div>
@@ -552,7 +602,7 @@
     <div class="footer-inner">
   
     <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+       <i class="iconfont icon-love"></i> <a target="_blank" href="https://qinganwu.github.io/" rel="nofollow noopener noopener"> <span>QingAn</span> </a> 
     </div>
   
   
@@ -674,6 +724,8 @@
   <script>Fluid.plugins.imageCaption();</script>
 
   <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 
