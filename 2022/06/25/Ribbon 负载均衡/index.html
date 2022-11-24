@@ -1,0 +1,820 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E5%B0%8F%E9%BB%84%E9%B8%AD.png">
+  <link rel="icon" href="/img/%E5%B0%8F%E9%BB%84%E9%B8%AD.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="QingAn">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Ribbon 负载均衡Ribbon简介Ribbon是什么？ Spring Cloud Ribbon 是基于Netflix Ribbon 实现的一套客户端负载均衡的工具。 简单的说，Ribbon 是 Netflix 发布的开源项目，主要功能是提供客户端的软件负载均衡算法，将 Netflix 的中间层服务连接在一起。Ribbon 的客户端组件提供一系列完整的配置项，如：连接超时、重试等。简单的说，就是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ribbon 负载均衡">
+<meta property="og:url" content="http://example.com/2022/06/25/Ribbon%20%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/index.html">
+<meta property="og:site_name" content="卿安的小屋">
+<meta property="og:description" content="Ribbon 负载均衡Ribbon简介Ribbon是什么？ Spring Cloud Ribbon 是基于Netflix Ribbon 实现的一套客户端负载均衡的工具。 简单的说，Ribbon 是 Netflix 发布的开源项目，主要功能是提供客户端的软件负载均衡算法，将 Netflix 的中间层服务连接在一起。Ribbon 的客户端组件提供一系列完整的配置项，如：连接超时、重试等。简单的说，就是">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/assets/image-20221009155937351.png">
+<meta property="og:image" content="http://example.com/assets/20200521131456478.png">
+<meta property="og:image" content="http://example.com/assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doaXRlQmVhckNsaW1i,size_16,color_FFFFFF,t_70.png">
+<meta property="og:image" content="http://example.com/assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doaXRlQmVhckNsaW1i,size_16,color_FFFFFF,t_70-16653049862164.png">
+<meta property="og:image" content="http://example.com/assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doaXRlQmVhckNsaW1i,size_16,color_FFFFFF,t_70.png">
+<meta property="og:image" content="http://example.com/assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doaXRlQmVhckNsaW1i,size_16,color_FFFFFF,t_70-16653050964193.png">
+<meta property="og:image" content="http://example.com/assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doaXRlQmVhckNsaW1i,size_16,color_FFFFFF,t_70-16653051657686.png">
+<meta property="og:image" content="http://example.com/assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doaXRlQmVhckNsaW1i,size_16,color_FFFFFF,t_70-16653052594589.png">
+<meta property="og:image" content="http://example.com/assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODIzMDc0Nw==,size_16,color_FFFFFF,t_70.png">
+<meta property="og:image" content="http://example.com/assets/20201231012719549.png">
+<meta property="og:image" content="http://example.com/assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODIzMDc0Nw==,size_16,color_FFFFFF,t_70-166530685716116.png">
+<meta property="article:published_time" content="2022-06-25T11:20:40.000Z">
+<meta property="article:modified_time" content="2022-11-24T15:57:32.282Z">
+<meta property="article:author" content="QingAn">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="SpringCloud">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/assets/image-20221009155937351.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Ribbon 负载均衡 - 卿安的小屋</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":110,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>卿安的小屋</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Ribbon 负载均衡"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-25 19:20" pubdate>
+          2022年6月25日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          74 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Ribbon 负载均衡</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Ribbon-负载均衡"><a href="#Ribbon-负载均衡" class="headerlink" title="Ribbon 负载均衡"></a>Ribbon 负载均衡</h1><h2 id="Ribbon简介"><a href="#Ribbon简介" class="headerlink" title="Ribbon简介"></a>Ribbon简介</h2><h3 id="Ribbon是什么？"><a href="#Ribbon是什么？" class="headerlink" title="Ribbon是什么？"></a>Ribbon是什么？</h3><ul>
+<li>Spring Cloud Ribbon 是基于Netflix Ribbon 实现的一套客户端负载均衡的工具。</li>
+<li>简单的说，Ribbon 是 Netflix 发布的开源项目，主要功能是提供客户端的软件负载均衡算法，将 Netflix 的中间层服务连接在一起。Ribbon 的客户端组件提供一系列完整的配置项，如：连接超时、重试等。简单的说，就是在配置文件中列出 LoadBalancer (简称LB：负载均衡) 后面所有的及其，Ribbon 会自动的帮助你基于某种规则 (如简单轮询，随机连接等等) 去连接这些机器。我们也容易使用 Ribbon 实现自定义的负载均衡算法！</li>
+</ul>
+<h3 id="Ribbon能干嘛？"><a href="#Ribbon能干嘛？" class="headerlink" title="Ribbon能干嘛？"></a>Ribbon能干嘛？</h3><ul>
+<li>LB，即负载均衡 (LoadBalancer) ，在微服务或分布式集群中经常用的一种应用。</li>
+<li>负载均衡简单的说就是将用户的请求平摊的分配到多个服务上，从而达到系统的HA (高用)。</li>
+<li>常见的负载均衡软件有 Nginx、Lvs 等等。</li>
+<li>Dubbo、SpringCloud 中均给我们提供了负载均衡，SpringCloud 的负载均衡算法可以自定义。</li>
+<li>负载均衡简单分类：<ul>
+<li>集中式LB<ul>
+<li>即在服务的提供方和消费方之间使用独立的LB设施，如Nginx(反向代理服务器)，由该设施负责把访问请求通过某种策略转发至服务的提供方！</li>
+</ul>
+</li>
+<li>进程式 LB<ul>
+<li>将LB逻辑集成到消费方，消费方从服务注册中心获知有哪些地址可用，然后自己再从这些地址中选出一个合适的服务器。<ul>
+<li>Ribbon 就属于进程内LB，它只是一个类库，集成于消费方进程，消费方通过它来获取到服务提供方的地址！</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h2><p><strong>先编写几个同一项目名称的项目（如：provider）注册到eureka中</strong></p>
+<h3 id="集成Ribbon"><a href="#集成Ribbon" class="headerlink" title="集成Ribbon"></a>集成Ribbon</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--Ribbon--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-ribbon<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-comment">&lt;!--Eureka: Ribbon需要从Eureka服务中心获取要拿什么--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="配置Eureka"><a href="#配置Eureka" class="headerlink" title="配置Eureka"></a>配置Eureka</h3><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">server:</span><br>  <span class="hljs-attr">port:</span> <span class="hljs-number">8082</span><br><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">application:</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">consumer</span><br><br><span class="hljs-attr">eureka:</span><br>  <span class="hljs-attr">client:</span><br>    <span class="hljs-attr">service-url:</span><br>      <span class="hljs-attr">defaultZone:</span> <span class="hljs-string">http://localhost:8761/eureka</span><br>  <span class="hljs-attr">instance:</span><br>    <span class="hljs-attr">instance-id:</span> <span class="hljs-string">$&#123;eureka.instance.hostname&#125;:$&#123;spring.application.name&#125;:$&#123;server.port&#125;</span> <span class="hljs-comment">#主机名称：应用名称：端口</span><br>    <span class="hljs-attr">hostname:</span> <span class="hljs-string">loclhost</span>  <span class="hljs-comment">#主机名称 或者服务器ip</span><br>    <span class="hljs-attr">prefer-ip-address:</span> <span class="hljs-literal">true</span> <span class="hljs-comment"># 以ip的形式显示具体的服务的信息</span><br>    <span class="hljs-attr">lease-renewal-interval-in-seconds:</span> <span class="hljs-number">10</span>  <span class="hljs-comment">#服务实例的续约时间间隔</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="开启Eureka"><a href="#开启Eureka" class="headerlink" title="开启Eureka"></a>开启Eureka</h3><p>主启动类加上@EnableEurekaClient注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Ribbon 和 Eureka 整合以后，客户端可以直接调用，不用关心IP地址和端口号</span><br><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-meta">@EnableEurekaClient</span> <span class="hljs-comment">//开启Eureka 客户端</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DeptConsumer_80</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        SpringApplication.run(DeptConsumer_80.class, args);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="自定义Spring配置类"><a href="#自定义Spring配置类" class="headerlink" title="自定义Spring配置类"></a>自定义Spring配置类</h3><p>ConfigBean.java 配置负载均衡实现RestTemplate </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SpringConfig</span> &#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * LoadBalanced 配置负载均衡实现RestTemplate</span><br><span class="hljs-comment">     * 被ribbon来操作</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> RestTemplate</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-meta">@LoadBalanced</span><br>    <span class="hljs-keyword">public</span> RestTemplate <span class="hljs-title function_">restTemplate</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RestTemplate</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="编写controller"><a href="#编写controller" class="headerlink" title="编写controller"></a>编写controller</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ConsumerController</span> &#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> RestTemplate restTemplate;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     *  方法一</span><br><span class="hljs-comment">     *  Ribbon:我们这里的地址，应该是一个变量，通过服务名来访问</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@GetMapping(&quot;testRibbonA&quot;)</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">testRibbon</span><span class="hljs-params">(String serviceName)</span>&#123;<br>        <span class="hljs-keyword">return</span> restTemplate.getForObject(<span class="hljs-string">&quot;http://&quot;</span> + serviceName + <span class="hljs-string">&quot;/hello&quot;</span>, String.class);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 方法二</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">SERVICE_NAME</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;provider&quot;</span>;<br><br>    <span class="hljs-meta">@GetMapping(&quot;testRibbonB&quot;)</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">testRibbon</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> restTemplate.getForObject(<span class="hljs-string">&quot;http://&quot;</span> + SERVICE_NAME + <span class="hljs-string">&quot;/hello&quot;</span>, String.class);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *  ribbon是怎么将http:provider/hello 路径请求成功的</span><br><span class="hljs-comment"> *  http://127.0.0.1:8080/hello</span><br><span class="hljs-comment"> *  1.拦截请求</span><br><span class="hljs-comment"> *  2.截取主机名称</span><br><span class="hljs-comment"> *  3.借助eureka来做服务发现list&lt;&gt;</span><br><span class="hljs-comment"> *  4.通过负载均衡算法 拿到一个服务ip port</span><br><span class="hljs-comment"> *  5.reConstructURL</span><br><span class="hljs-comment"> *  6.发起请求</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> */</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h2><h3 id="方法一：配置类添加"><a href="#方法一：配置类添加" class="headerlink" title="方法一：配置类添加"></a>方法一：配置类添加</h3><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-comment"># 访问不同的服务可以使用不同的算法规则</span><br><span class="hljs-attr">provider:</span> <span class="hljs-comment"># 先写服务提供者的应用名称</span><br>  <span class="hljs-attr">ribbon:</span><br>    <span class="hljs-attr">NFLoadBalancerRuleClassName:</span> <span class="hljs-string">com.netflix.loadbalancer.RandomRule</span> <span class="hljs-comment">#几种算法的权限的类名</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/assets/image-20221009155937351.png" srcset="/img/loading.gif" lazyload alt="image-20221009155937351"></p>
+<h3 id="方法二：启动类上加-RibbonClient"><a href="#方法二：启动类上加-RibbonClient" class="headerlink" title="方法二：启动类上加  @RibbonClient"></a>方法二：启动类上加  @RibbonClient</h3><p>同时可以指定注册中心中的server name ，这样一个server name 列表下管理的全部集群服务就可以被负载策略自由选择</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-meta">@EnableEurekaClient</span><br><span class="hljs-meta">@RibbonClient(name = &quot;provider&quot;,configuration = RandomRule.class)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ConsumerApplication</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        SpringApplication.run(ConsumerApplication.class, args);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果有多个服务的情况下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-meta">@EnableEurekaClient</span><br><span class="hljs-meta">@RibbonClients(value =&#123;</span><br><span class="hljs-meta">    @RibbonClient(name = &quot;provider&quot;,configuration = RandomRule.class),</span><br><span class="hljs-meta">    @RibbonClient(name = &quot;providerB&quot;,configuration = RandomRule.class)</span><br><span class="hljs-meta">&#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ConsumerApplication</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        SpringApplication.run(ConsumerApplication.class, args);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="全局配置负载均衡"><a href="#全局配置负载均衡" class="headerlink" title="全局配置负载均衡"></a>全局配置负载均衡</h3><p>在配置类中利用@Bean注入到容器中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyRule</span> &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 往容器中放一个rule对象</span><br><span class="hljs-comment">     * 你访问任何一个提供者 都是这个算法</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">	 * IRule</span><br><span class="hljs-comment">	 * RoundRobinRule 轮询</span><br><span class="hljs-comment">	 * RandomRule 随机</span><br><span class="hljs-comment">	 * AvailabilityFilteringRule: 会过滤掉，跳闸，访问故障的服务~，对剩下的进行轮询</span><br><span class="hljs-comment">	 * RetryRule: 会先按照轮询获取服务~，如果服务失败，则会在指定的时间内进行，重试。</span><br><span class="hljs-comment">	 */</span><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> IRule <span class="hljs-title function_">myRule</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RandomRule</span>();  <span class="hljs-comment">//默认 随机</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="自定义负载均衡"><a href="#自定义负载均衡" class="headerlink" title="自定义负载均衡"></a>自定义负载均衡</h3><p>也可以自定义规则，在myRule包下自定义一个配置类MyRule.java，注意：<strong>该包不要和主启动类所在的包同级，要跟启动类所在包同级</strong>： </p>
+<p><img src="/assets/20200521131456478.png" srcset="/img/loading.gif" lazyload alt="20200521131456478"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span>: 自定义规则</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyRule</span> &#123;<br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> IRule <span class="hljs-title function_">myRule</span><span class="hljs-params">()</span>&#123;<br> <span class="hljs-comment">//         return new RandomRule();  //默认 随机</span><br>	       <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">WuRandomRule</span>();  <span class="hljs-comment">//默认是轮询，现在我们定义为 WuRandomRule</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>主启动类开启负载均衡并指定自定义的MyRule配置类 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Ribbon 和 Eureka 整合以后，客户端可以直接调用，不用关心IP地址和端口号</span><br><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-meta">@EnableEurekaClient</span><br><span class="hljs-comment">//在微服务启动的时候就能加载自定义的Ribbon类(自定义的规则会覆盖原有默认的规则)</span><br><span class="hljs-meta">@RibbonClient(name = &quot;SPRINGCLOUD-PROVIDER-DEPT&quot;,configuration = MyRule.class)</span><span class="hljs-comment">//开启负载均衡,并指定自定义的规则</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DeptConsumer_80</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        SpringApplication.run(DeptConsumer_80.class, args);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p> 自定义的规则(这里我们参考Ribbon中默认的规则代码自己稍微改动)：MyRandomRule.java </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyRandomRule</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractLoadBalancerRule</span> &#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 每个服务访问5次则换下一个服务(总共3个服务)</span><br><span class="hljs-comment">     * &lt;p&gt;</span><br><span class="hljs-comment">     * total=0,默认=0,如果=5,指向下一个服务节点</span><br><span class="hljs-comment">     * index=0,默认=0,如果total=5,index+1</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> <span class="hljs-variable">total</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<span class="hljs-comment">//被调用的次数</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> <span class="hljs-variable">currentIndex</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<span class="hljs-comment">//当前是谁在提供服务</span><br><br>    <span class="hljs-comment">//@edu.umd.cs.findbugs.annotations.SuppressWarnings(value = &quot;RCN_REDUNDANT_NULLCHECK_OF_NULL_VALUE&quot;)</span><br>    <span class="hljs-keyword">public</span> Server <span class="hljs-title function_">choose</span><span class="hljs-params">(ILoadBalancer lb, Object key)</span> &#123;<br>        <span class="hljs-keyword">if</span> (lb == <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>        &#125;<br>        <span class="hljs-type">Server</span> <span class="hljs-variable">server</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br><br>        <span class="hljs-keyword">while</span> (server == <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">if</span> (Thread.interrupted()) &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>            &#125;<br>            List&lt;Server&gt; upList = lb.getReachableServers();<span class="hljs-comment">//获得当前活着的服务</span><br>            List&lt;Server&gt; allList = lb.getAllServers();<span class="hljs-comment">//获取所有的服务</span><br><br>            <span class="hljs-type">int</span> <span class="hljs-variable">serverCount</span> <span class="hljs-operator">=</span> allList.size();<br>            <span class="hljs-keyword">if</span> (serverCount == <span class="hljs-number">0</span>) &#123;<br>                <span class="hljs-comment">/*</span><br><span class="hljs-comment">                 * No servers. End regardless of pass, because subsequent passes</span><br><span class="hljs-comment">                 * only get more restrictive.</span><br><span class="hljs-comment">                 */</span><br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>            &#125;<br><br>            <span class="hljs-comment">//int index = chooseRandomInt(serverCount);//生成区间随机数</span><br>            <span class="hljs-comment">//server = upList.get(index);//从或活着的服务中,随机获取一个</span><br><br>            <span class="hljs-comment">//=====================自定义代码=========================</span><br><br>            <span class="hljs-keyword">if</span> (total &lt; <span class="hljs-number">5</span>) &#123;<br>                server = upList.get(currentIndex);<br>                total++;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                total = <span class="hljs-number">0</span>;<br>                currentIndex++;<br>                <span class="hljs-keyword">if</span> (currentIndex &gt; upList.size()) &#123;<br>                    currentIndex = <span class="hljs-number">0</span>;<br>                &#125;<br>                server = upList.get(currentIndex);<span class="hljs-comment">//从活着的服务中,获取指定的服务来进行操作</span><br>            &#125;<br>            <br>            <span class="hljs-comment">//======================================================</span><br>            <br>            <span class="hljs-keyword">if</span> (server == <span class="hljs-literal">null</span>) &#123;<br>                <span class="hljs-comment">/*</span><br><span class="hljs-comment">                 * The only time this should happen is if the server list were</span><br><span class="hljs-comment">                 * somehow trimmed. This is a transient condition. Retry after</span><br><span class="hljs-comment">                 * yielding.</span><br><span class="hljs-comment">                 */</span><br>                Thread.yield();<br>                <span class="hljs-keyword">continue</span>;<br>            &#125;<br>            <span class="hljs-keyword">if</span> (server.isAlive()) &#123;<br>                <span class="hljs-keyword">return</span> (server);<br>            &#125;<br>            <span class="hljs-comment">// Shouldn&#x27;t actually happen.. but must be transient or a bug.</span><br>            server = <span class="hljs-literal">null</span>;<br>            Thread.yield();<br>        &#125;<br>        <span class="hljs-keyword">return</span> server;<br>    &#125;<br><br>    <span class="hljs-keyword">protected</span> <span class="hljs-type">int</span> <span class="hljs-title function_">chooseRandomInt</span><span class="hljs-params">(<span class="hljs-type">int</span> serverCount)</span> &#123;<br>        <span class="hljs-keyword">return</span> ThreadLocalRandom.current().nextInt(serverCount);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Server <span class="hljs-title function_">choose</span><span class="hljs-params">(Object key)</span> &#123;<br>        <span class="hljs-keyword">return</span> choose(getLoadBalancer(), key);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initWithNiwsConfig</span><span class="hljs-params">(IClientConfig clientConfig)</span> &#123;<br>        <span class="hljs-comment">// TODO Auto-generated method stub</span><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="Ribbon内置的负载均衡规则"><a href="#Ribbon内置的负载均衡规则" class="headerlink" title="Ribbon内置的负载均衡规则"></a>Ribbon内置的负载均衡规则</h2><p>（配置文件中使用规则名称进行配置，默认使用轮询算法ZoneAvoidanceRule）</p>
+<table>
+<thead>
+<tr>
+<th>规则名称</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RetryRule</td>
+<td>对选定的负载均衡策略机上重试机制，在一个配置时间段内当选择Server不成功，则一直尝试使用subRule的方式选择一个可用的server<br/></td>
+</tr>
+<tr>
+<td>BestAvailableRule</td>
+<td>选择一个最小的并发请求的Server，逐个考察Server，如果Server被</td>
+</tr>
+<tr>
+<td>RandomRule</td>
+<td>随机选择一个Server</td>
+</tr>
+<tr>
+<td>ResponseTimeWeightedRule</td>
+<td>已废弃，作用同WeightedResponseTimeRule</td>
+</tr>
+<tr>
+<td>RoundRobinRule</td>
+<td>轮询选择，轮询index，选择index对应位置的Server</td>
+</tr>
+<tr>
+<td>WeightedResponseTimeRule</td>
+<td>根据响应时间加权，响应时间越长，权重越小，被选中的可能性越低</td>
+</tr>
+<tr>
+<td>ZoneAvoidanceRule</td>
+<td>复合判断Server所zone的性能和Server的可用性选择Server，在没有Zone的环境下，类似于轮询(RoundRobinRule)</td>
+</tr>
+<tr>
+<td>AvailabilityFilteringRule</td>
+<td>过滤掉一直连接失败的被标记为circuit tripped的后端Server，并过滤掉那些高并发的后端Server或者使用一个AvailabilityPredicate来包含过滤server的逻辑，其实就就是检查status里记录的各个Server的运行状态</td>
+</tr>
+</tbody></table>
+<h3 id="1-RoundRobinRule轮询（默认）："><a href="#1-RoundRobinRule轮询（默认）：" class="headerlink" title="1. RoundRobinRule轮询（默认）："></a>1. RoundRobinRule轮询（默认）：</h3><p>第一次到A，第二次就到B，第三次又到A，第四次又到B…<br>具体实现是一个负载均衡算法：第N次请求 % 服务器集群的总数 &#x3D; 实际调用服务器位置的下标<br>那么怎么保证线程安全问题呢？因为N次请求次数会自增，怎么保证不会多次请求都拿到同一个N进行自增？</p>
+<p>答案就是简单的CAS：</p>
+<p><img src="/assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doaXRlQmVhckNsaW1i,size_16,color_FFFFFF,t_70.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>关于CAS，有另外一篇记录：<a target="_blank" rel="noopener" href="https://blog.csdn.net/whiteBearClimb/article/details/104698133">Lock锁+CAS+与Synchronized比较</a></p>
+<h3 id="2-RandomRule随机"><a href="#2-RandomRule随机" class="headerlink" title="2.RandomRule随机"></a>2.RandomRule随机</h3><p><img src="/assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doaXRlQmVhckNsaW1i,size_16,color_FFFFFF,t_70-16653049862164.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>再进去看（我看源码看到这一块看不懂了，求大佬赐教），只知道返回存活服务列表中的随机一个服务的下标，然后在存活列表upList.get(index) 这样去拿到随机的server返回：</p>
+<p><img src="/assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doaXRlQmVhckNsaW1i,size_16,color_FFFFFF,t_70.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="3-RetryRule轮询重试（重试采用的默认也是轮询）"><a href="#3-RetryRule轮询重试（重试采用的默认也是轮询）" class="headerlink" title="3.RetryRule轮询重试（重试采用的默认也是轮询）"></a>3.RetryRule轮询重试（重试采用的默认也是轮询）</h3><p><img src="/assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doaXRlQmVhckNsaW1i,size_16,color_FFFFFF,t_70-16653050964193.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="4-WeightedResponseTimeRule-响应速度决定权重"><a href="#4-WeightedResponseTimeRule-响应速度决定权重" class="headerlink" title="4. WeightedResponseTimeRule 响应速度决定权重"></a>4. WeightedResponseTimeRule 响应速度决定权重</h3><p>这个源码很长很复杂，就不放出来了，其实是对RoundRobbin的一种增强，加入了权重和计算响应时间的概念，其中响应速度最快的权重越大，权重越大则选中的概率越大。</p>
+<h3 id="5-BestAvailableRule最优可用（底层也有RoundRobinRule）"><a href="#5-BestAvailableRule最优可用（底层也有RoundRobinRule）" class="headerlink" title="5. BestAvailableRule最优可用（底层也有RoundRobinRule）"></a>5. BestAvailableRule最优可用（底层也有RoundRobinRule）</h3><p>最优可用，判断最优其实用的是并发连接数。选择并发连接数较小的server发送请求。</p>
+<p><img src="/assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doaXRlQmVhckNsaW1i,size_16,color_FFFFFF,t_70-16653051657686.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="6-AvailabilityFilteringRule可用性过滤规则（底层也有RoundRobinRule）"><a href="#6-AvailabilityFilteringRule可用性过滤规则（底层也有RoundRobinRule）" class="headerlink" title="6.AvailabilityFilteringRule可用性过滤规则（底层也有RoundRobinRule）"></a>6.AvailabilityFilteringRule可用性过滤规则（底层也有RoundRobinRule）</h3><p>它功能是先过滤掉不可用的Server实例，再选择并发连接最小的实例。</p>
+<p><img src="/assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doaXRlQmVhckNsaW1i,size_16,color_FFFFFF,t_70-16653052594589.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="7-ZoneAvoidanceRule区域内可用性能最优"><a href="#7-ZoneAvoidanceRule区域内可用性能最优" class="headerlink" title="7.ZoneAvoidanceRule区域内可用性能最优"></a>7.ZoneAvoidanceRule区域内可用性能最优</h3><p>基于AvailabilityFilteringRule基础上做的，首先判断一个zone的运行性能是否可用，剔除不可用的区域zone的所有server，然后再利用AvailabilityPredicate过滤并发连接过多的server。<br>源码真的很长，我不跟下去了…大概就是这么个意思还挺好理解。</p>
+<h2 id="Ribbon常用配置"><a href="#Ribbon常用配置" class="headerlink" title="Ribbon常用配置"></a>Ribbon常用配置</h2><p>（基本都使用这种方式，没有代码配置的坑，也可以实现线上修改和发布，且配置文件的配置优先级比Java代码更高，即配置文件和Java代码同时配置，配置文件优先生效）</p>
+<h3 id="1-Ribbon细粒度配置某个微服务使用指定负载均衡算法"><a href="#1-Ribbon细粒度配置某个微服务使用指定负载均衡算法" class="headerlink" title="1.Ribbon细粒度配置某个微服务使用指定负载均衡算法"></a>1.Ribbon细粒度配置某个微服务使用指定负载均衡算法</h3><p>为调用微服务user-center时指定负载均衡算法。</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs crystal">user-<span class="hljs-symbol">center:</span><br>  <span class="hljs-symbol">ribbon:</span><br>    <span class="hljs-comment">#Ribbon实现负载均衡算法配置，前面的key是固定写法，后面是负载均衡算法的全路径</span><br>    <span class="hljs-symbol">NFLoadBalancerRuleClassName:</span> com.netflix.loadbalancer.RandomRule<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-Ribbon其他配置"><a href="#2-Ribbon其他配置" class="headerlink" title="2.Ribbon其他配置"></a>2.Ribbon其他配置</h3><p>可配置项：</p>
+<p><img src="/assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODIzMDc0Nw==,size_16,color_FFFFFF,t_70.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>配置文件配置方式：</p>
+<p><img src="/assets/20201231012719549.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>配置解读：</p>
+<p><img src="/assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODIzMDc0Nw==,size_16,color_FFFFFF,t_70-166530685716116.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h3 id="3-Ribbon默认是懒加载"><a href="#3-Ribbon默认是懒加载" class="headerlink" title="3.Ribbon默认是懒加载"></a>3.Ribbon默认是懒加载</h3><p>当下面代码调用的时候，才会创建名为user-center的Ribbon Client，就会导致首次请求过慢的问题。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">UserDTO</span> <span class="hljs-variable">userDTO</span> <span class="hljs-operator">=</span> restTemplate.getForObject(<span class="hljs-string">&quot;http://user-center/user/&#123;userId&#125;&quot;</span> , UserDTO.class ,userId)<br></code></pre></td></tr></table></figure>
+
+<p>解决方案：配置文件配置</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">ribbon:</span><br>    <span class="hljs-attr">eager-load:</span><br>        <span class="hljs-string">enabled:true</span><br>        <span class="hljs-string">clients:user-center,xxx,xxx</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Ribbon扩展"><a href="#Ribbon扩展" class="headerlink" title="Ribbon扩展"></a>Ribbon扩展</h2><h3 id="1-扩展Ribbon-同集群优先调用"><a href="#1-扩展Ribbon-同集群优先调用" class="headerlink" title="1.扩展Ribbon-同集群优先调用"></a>1.扩展Ribbon-同集群优先调用</h3><p>此种扩展需要代码配置搭配配置文件一起使用，因代码篇幅较长。内容移至Java代码配置篇。</p>
+<p>文章第二章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_38230747/article/details/111999617">扩展Ribbon-同集群优先调用</a></p>
+<h3 id="2-扩展Ribbon-基于元数据的版本控制"><a href="#2-扩展Ribbon-基于元数据的版本控制" class="headerlink" title="2.扩展Ribbon-基于元数据的版本控制"></a>2.扩展Ribbon-基于元数据的版本控制</h3><p>链接：[扩展Ribbon支持基于元数据的版本管理](</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%90%8E%E7%AB%AF/" class="category-chain-item">后端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/java/">#java</a>
+      
+        <a href="/tags/SpringCloud/">#SpringCloud</a>
+      
+        <a href="/tags/Spring/">#Spring</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Ribbon 负载均衡</div>
+      <div>http://example.com/2022/06/25/Ribbon 负载均衡/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>QingAn</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年6月25日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/06/25/OpenFeign%20%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" title="OpenFeign 负载均衡">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">OpenFeign 负载均衡</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/06/25/Seata%20%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" title="Seata 分布式事务">
+                        <span class="hidden-mobile">Seata 分布式事务</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"CUuWA2AIzpwKyFgvwcacCbi4-gzGzoHsz","appKey":"mQkVUzfrR2cCGeAOkvoTiKEY","path":"window.location.pathname","placeholder":"欢迎评论~~","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <i class="iconfont icon-love"></i> <a target="_blank" href="https://qinganwu.github.io/" rel="nofollow noopener noopener"> <span>QingAn</span> </a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

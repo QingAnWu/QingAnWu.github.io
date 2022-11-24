@@ -1,0 +1,1001 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E5%B0%8F%E9%BB%84%E9%B8%AD.png">
+  <link rel="icon" href="/img/%E5%B0%8F%E9%BB%84%E9%B8%AD.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="QingAn">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="nacos服务注册中心Nacos简介 Nacos 是阿里巴巴推出来的一个新开源项目，这是一个更易于构建云原生应用的动态服务发现、配置管理和服务管理平台。 Nacos 致力于帮助您发现、配置和管理微服务。Nacos 提供了一组简单易用的特性集，帮助您快速实现动态服务发现、服务配置、服务元数据及流量管理。 Nacos 帮助您更敏捷和容易地构建、交付和管理微服务平台。 Nacos 是构建以“服务”为中心">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nacos服务注册中心">
+<meta property="og:url" content="http://example.com/2022/06/25/nacos%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/index.html">
+<meta property="og:site_name" content="卿安的小屋">
+<meta property="og:description" content="nacos服务注册中心Nacos简介 Nacos 是阿里巴巴推出来的一个新开源项目，这是一个更易于构建云原生应用的动态服务发现、配置管理和服务管理平台。 Nacos 致力于帮助您发现、配置和管理微服务。Nacos 提供了一组简单易用的特性集，帮助您快速实现动态服务发现、服务配置、服务元数据及流量管理。 Nacos 帮助您更敏捷和容易地构建、交付和管理微服务平台。 Nacos 是构建以“服务”为中心">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/2021072020063259-16650690268898.png">
+<meta property="og:image" content="http://example.com/images/20210720200634505-166506904828711.png">
+<meta property="og:image" content="http://example.com/images/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NvbGRvcm9zXw==,size_16,color_FFFFFF,t_70.png">
+<meta property="og:image" content="http://example.com/images/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NvbGRvcm9zXw==,size_16,color_FFFFFF,t_70-166506926245214.png">
+<meta property="og:image" content="http://example.com/images/20210720200907105.png">
+<meta property="og:image" content="http://example.com/images/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NvbGRvcm9zXw==,size_16,color_FFFFFF,t_70-166506926245515.png">
+<meta property="og:image" content="http://example.com/images/image-20211119113852999.png">
+<meta property="og:image" content="http://example.com/images/image-20211119113933150.png">
+<meta property="og:image" content="http://example.com/images/image-20211119114040066.png">
+<meta property="og:image" content="http://example.com/images/image-20211119114231479.png">
+<meta property="og:image" content="http://example.com/images/image-20221018115507923.png">
+<meta property="og:image" content="http://example.com/images/image-20221018115659461.png">
+<meta property="og:image" content="http://example.com/images/image-20221018115713505.png">
+<meta property="article:published_time" content="2022-06-25T11:20:40.000Z">
+<meta property="article:modified_time" content="2022-11-24T15:50:33.838Z">
+<meta property="article:author" content="QingAn">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="SpringCloud">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/images/2021072020063259-16650690268898.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>nacos服务注册中心 - 卿安的小屋</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":110,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>卿安的小屋</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="nacos服务注册中心"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-25 19:20" pubdate>
+          2022年6月25日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          14k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          121 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">nacos服务注册中心</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="nacos服务注册中心"><a href="#nacos服务注册中心" class="headerlink" title="nacos服务注册中心"></a>nacos服务注册中心</h1><h2 id="Nacos简介"><a href="#Nacos简介" class="headerlink" title="Nacos简介"></a>Nacos简介</h2><blockquote>
+<p>Nacos 是阿里巴巴推出来的一个新开源项目，这是一个更易于构建云原生应用的动态服务发现、配置管理和服务管理平台。</p>
+<p>Nacos 致力于帮助您发现、配置和管理微服务。Nacos 提供了一组简单易用的特性集，帮助您快速实现动态服务发现、服务配置、服务元数据及流量管理。</p>
+<p>Nacos 帮助您更敏捷和容易地构建、交付和管理微服务平台。 Nacos 是构建以“服务”为中心的现代应用架构 (例如微服务范式、云原生范式) 的服务基础设施</p>
+</blockquote>
+<p><strong>Nacos 支持如下核心特性：</strong></p>
+<p>1）服务发现： 支持 DNS 与 RPC 服务发现，也提供原生 SDK 、OpenAPI 等多种服务注册方式和 DNS、HTTP 与 API 等多种服务发现方式。<br>2）服务健康监测： Nacos 提供对服务的实时的健康检查，阻止向不健康的主机或服务实例发送请求。<br>3）动态配置服务： Nacos 提供配置统一管理功能，能够帮助我们将配置以中心化、外部化和动态化的方式管理所有环境的应用配置和服务配置。<br>4）动态 DNS 服务： Nacos 支持动态 DNS 服务权重路由，能够让我们很容易地实现中间层负载均衡、更灵活的路由策略、流量控制以及数据中心内网的简单 DNS 解析服务。<br>5）服务及其元数据管理： Nacos 支持从微服务平台建设的视角管理数据中心的所有服务及元数据，包括管理服务的描述、生命周期、服务的静态依赖分析、服务的健康状态、服务的流量管理、路由及安全策略、服务的 SLA 以及最首要的 metrics 统计数据。</p>
+<h2 id="Nacos与Eureka的区别"><a href="#Nacos与Eureka的区别" class="headerlink" title="Nacos与Eureka的区别"></a>Nacos与Eureka的区别</h2><h3 id="1-CAP理论"><a href="#1-CAP理论" class="headerlink" title="1. CAP理论"></a>1. CAP理论</h3><p>C一致性,A高可用,P分区容错性</p>
+<ul>
+<li><p>eureka只支持AP</p>
+</li>
+<li><p>nacos支持CP和AP两种</p>
+<p>nacos是根据配置识别CP或AP模式,如果注册Nacos的client节点注册时是ephemeral&#x3D;true即为临时节点,那么Naocs集群对这个client节点效果就是AP,反之则是CP,即不是临时节点</p>
+</li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment">#false为永久实例，true表示临时实例开启，注册为临时实例</span><br><span class="hljs-attr">spring.cloud.nacos.discovery.ephemeral</span>=<span class="hljs-string">true</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-连接方式"><a href="#2-连接方式" class="headerlink" title="2. 连接方式"></a>2. 连接方式</h3><ol>
+<li>nacs使用的是netty和服务直接进行连接,属于长连接</li>
+<li>eureka是使用定时发送和服务进行联系,属于短连接</li>
+</ol>
+<h3 id="3-服务异常剔除"><a href="#3-服务异常剔除" class="headerlink" title="3. 服务异常剔除"></a>3. 服务异常剔除</h3><p>eureka:<br>Eureka client在默认情况每隔30s想Eureka Server发送一次心跳,当Eureka Server在默认连续90s秒的情况下没有收到心跳, 会把Eureka client 从注册表中剔除,在由Eureka-Server 60秒的清除间隔,把Eureka client 给下线</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java">EurekaInstanceConfigBean类下<br><span class="hljs-keyword">private</span> <span class="hljs-type">int</span> <span class="hljs-variable">leaseRenewalIntervalInSeconds</span> <span class="hljs-operator">=</span> <span class="hljs-number">30</span>;  <span class="hljs-comment">//心跳间隔30s</span><br>  <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> <span class="hljs-variable">leaseExpirationDurationInSeconds</span> <span class="hljs-operator">=</span> <span class="hljs-number">90</span>;  <span class="hljs-comment">//默认90s没有收到心跳从注册表中剔除</span><br>EurekaServerConfigBean  类下<br>  <span class="hljs-keyword">private</span> <span class="hljs-type">long</span> <span class="hljs-variable">evictionIntervalTimerInMs</span> <span class="hljs-operator">=</span> <span class="hljs-number">60000L</span>; <span class="hljs-comment">//异常服务剔除下线时间间隔</span><br></code></pre></td></tr></table></figure>
+
+<p>也就是在极端情况下Eureka 服务 从异常到剔除在到完全不接受请求可能需要 30s+90s+60s&#x3D;3分钟左右(还是未考虑ribbon缓存情况下)</p>
+<p>nacos:<br>nacos client 通过心跳上报方式告诉 nacos注册中心健康状态,默认心跳间隔5秒，<br>nacos会在超过15秒未收到心跳后将实例设置为不健康状态，可以正常接收到请求<br>超过30秒nacos将实例删除,不会再接收请求</p>
+<h3 id="4-操作实例方式"><a href="#4-操作实例方式" class="headerlink" title="4. 操作实例方式"></a>4. 操作实例方式</h3><p>nacos:提供了nacos console可视化控制话界面,可以对实例列表进行监听,对实例进行上下线,权重的配置,并且config server提供了对服务实例提供配置中心,且可以对配置进行CRUD,版本管理</p>
+<p>eureka:仅提供了实例列表,实例的状态,错误信息,相比于nacos过于简单</p>
+<h3 id="5-自我保护机制"><a href="#5-自我保护机制" class="headerlink" title="5. 自我保护机制"></a>5. 自我保护机制</h3><p>相同点：保护阈值都是个比例，0-1 范围，表示健康的 instance 占全部instance 的比例。</p>
+<p>不同点：</p>
+<p>​		1）保护方式不同</p>
+<p>​				Eureka保护方式：当在短时间内，统计续约失败的比例，如果达到一定阈值，则会触发自我保护的机制，在该机制下，Eureka Server不会剔除任何的微服务，等到正常后，再退出自我保护机制。自我保护开关(eureka.server.enable-self-preservation: false)</p>
+<p>​				Nacos保护方式：当域名健康实例 (Instance) 占总服务实例(Instance) 的比例小于阈值时，无论实例 (Instance) 是否健康，都会将这个实例 (Instance) 返回给客户端。这样做虽然损失了一部分流量，但是保证了集群的剩余健康实例 (Instance) 能正常工作。</p>
+<p>​		2）范围不同</p>
+<p>​				Nacos 的阈值是针对某个具体 Service 的，而不是针对所有服务的。但 Eureka的自我保护阈值是针对所有服务的。</p>
+<hr>
+<h2 id="nacos安装教程"><a href="#nacos安装教程" class="headerlink" title="nacos安装教程"></a>nacos安装教程</h2><h3 id="一-windows系统"><a href="#一-windows系统" class="headerlink" title="一.windows系统"></a><em><strong>一.windows系统</strong></em></h3><p><a target="_blank" rel="noopener" href="https://github.com/alibaba/nacos">nacos下载地址</a></p>
+<p>1.下载后解压</p>
+<p>2.找到  &#x3D;&#x3D;&#x2F;conf&#x2F;nacos-mysql.sql&#x3D;&#x3D;  文件，在mysql工具中新建一个名为nacos的数据库，再运行此文件进行表和数据的创建</p>
+<p>3.找到 &#x3D;&#x3D;&#x2F;conf&#x2F;application.properties&#x3D;&#x3D; 文件，打开后去配置数据库信息</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment">#*************** Config Module Related Configurations ***************#</span><br><span class="hljs-comment">### If use MySQL as datasource:</span><br><span class="hljs-attr">spring.datasource.platform</span>=<span class="hljs-string">mysql</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">### Count of DB:</span><br><span class="hljs-attr">db.num</span>=<span class="hljs-string">1</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">### Connect URL of DB:</span><br><span class="hljs-comment"># db.url.0=jdbc:mysql://127.0.0.1:3306/nacos?characterEncoding=utf8&amp;connectTimeout=1000&amp;socketTimeout=3000&amp;autoReconnect=true&amp;useUnicode=true&amp;useSSL=false&amp;serverTimezone=UTC</span><br><span class="hljs-attr">db.url.0</span>=<span class="hljs-string">jdbc:mysql://localhost:3306/nacos?serverTimezone=Asia/Shanghai&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;useSSL=false&amp;allowPublicKeyRetrieval=true</span><br><span class="hljs-attr">db.user.0</span>=<span class="hljs-string">root</span><br><span class="hljs-attr">db.password.0</span>=<span class="hljs-string">root</span><br></code></pre></td></tr></table></figure>
+
+<p><em><strong>4.找到  &#x3D;&#x3D;&#x2F;bin&#x2F;startup.cmd&#x3D;&#x3D; 脚本，然后配置单机模式：set MODE&#x3D;”standalone”,保存后双击即可运行</strong></em></p>
+<h3 id="二-centos系统"><a href="#二-centos系统" class="headerlink" title="二.centos系统"></a><em><strong>二.centos系统</strong></em></h3><p><a target="_blank" rel="noopener" href="https://github.com/alibaba/nacos">nacos下载地址</a></p>
+<p><em><strong>1.下载附件</strong></em></p>
+<p><em><strong>2.cd到安装包目录：cd &#x2F;opt&#x2F;server，然后解压：tar -zxvf nacos-server-1.3.2.tar.gz -C &#x2F;opt&#x2F;server ,再重命名</strong></em></p>
+<p><em><strong>3.找到 &#x2F;bin&#x2F;startup.sh ，修改jdk路径，需要的话可以修改内存</strong></em></p>
+<p><em><strong>4.和windows版一样，找到  &#x2F;conf&#x2F;nacos-mysql.sql ，去创建nacos数据库，并运行此文件创建表和数据</strong></em></p>
+<p><em><strong>5.打开  application.properties 去配置数据库信息</strong></em></p>
+<p><em><strong>6.打开 cluster.conf.example 进行 编辑，如下图</strong></em></p>
+<table>
+<thead>
+<tr>
+<th><img src="/images/2021072020063259-16650690268898.png" srcset="/img/loading.gif" lazyload alt="img"></th>
+<th><img src="/images/20210720200634505-166506904828711.png" srcset="/img/loading.gif" lazyload alt="img"></th>
+</tr>
+</thead>
+</table>
+<p> 7.创建服务</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">[Unit]</span><br><span class="hljs-attr">Description</span>=<span class="hljs-string">nacos</span><br><span class="hljs-attr">After</span>=<span class="hljs-string">network.target</span><br><br><span class="hljs-attr">[Service]</span><br><span class="hljs-attr">Type</span>=<span class="hljs-string">forking</span><br><span class="hljs-attr">ExecStart</span>=<span class="hljs-string">/opt/server/nacos1.3.2/bin/startup.sh -m standalone</span><br><span class="hljs-attr">ExecStop</span>=<span class="hljs-string">/opt/server/nacos1.3.2/bin/shutdown.sh</span><br><span class="hljs-attr">PrivateTmp</span>=<span class="hljs-string">true</span><br><br><span class="hljs-attr">[Install]</span><br><span class="hljs-attr">WantedBy</span>=<span class="hljs-string">multi-user.target</span><br></code></pre></td></tr></table></figure>
+
+<p>然后创建自启服务：systemctl enable nacos.service，运行服务：systemctl start nacos.service</p>
+<p>之后浏览器打开：http:&#x2F;&#x2F;服务器ip:8848&#x2F;nacos，账号是nacos，默认密码也是nacos，登录后即可进行管理</p>
+<table>
+<thead>
+<tr>
+<th><img src="/images/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NvbGRvcm9zXw==,size_16,color_FFFFFF,t_70.png" srcset="/img/loading.gif" lazyload alt="img"></th>
+<th><img src="/images/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NvbGRvcm9zXw==,size_16,color_FFFFFF,t_70-166506926245214.png" srcset="/img/loading.gif" lazyload alt="img"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="/images/20210720200907105.png" srcset="/img/loading.gif" lazyload alt="img"></td>
+<td><img src="/images/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NvbGRvcm9zXw==,size_16,color_FFFFFF,t_70-166506926245515.png" srcset="/img/loading.gif" lazyload alt="img"></td>
+</tr>
+</tbody></table>
+<h3 id="三-docker安装nacos"><a href="#三-docker安装nacos" class="headerlink" title="三.docker安装nacos"></a><em><strong>三.docker安装nacos</strong></em></h3><p><em><strong>1.安装之前先提前安装好docker和mysql。拉取最新版镜像：docker pull nacos&#x2F;nacos-server（不带版本号，默认最新版）</strong></em></p>
+<p><em><strong>2.网上找到对应版本的nacos-mysql.sql文件，并安装名为nacos的数据库再执行该文件</strong></em></p>
+<p>3.使用镜像创建并运行容器，这里指定了mysql的相关配置以及日志，端口映射等</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run -d -e MODE=standalone -e JVM_XMS=256m -e JVM_XMX=256m -e SPRING_DATASOURCE_PLATFORM=mysql -e MYSQL_SERVICE_HOST=[数据库ip地址] -e MYSQL_SERVICE_PORT=3306 -e MYSQL_SERVICE_DB_NAME=nacos -e MYSQL_SERVICE_USER=[数据库账号] -e MYSQL_SERVICE_PASSWORD=[数据库密码] -e MYSQL_SERVICE_DB_PARAM=<span class="hljs-string">&#x27;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Shanghai&amp;useSSL=false&#x27;</span> -v /var/dockerdata/nacos/logs:/home/nacos/logs -p 8848:8848 --name nacos --restart=always nacos/nacos-server:latest<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="nacos案例"><a href="#nacos案例" class="headerlink" title="nacos案例"></a>nacos案例</h2><h3 id="nacos客户端依赖"><a href="#nacos客户端依赖" class="headerlink" title="nacos客户端依赖"></a>nacos客户端依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--nacos客户端--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-alibaba-nacos-discovery<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="nacos客户端常用配置文件"><a href="#nacos客户端常用配置文件" class="headerlink" title="nacos客户端常用配置文件"></a>nacos客户端常用配置文件</h3><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">server:</span><br>  <span class="hljs-attr">port:</span> <span class="hljs-number">8080</span><br><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">application:</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">nacos-client-b</span><br>  <span class="hljs-attr">cloud:</span><br>    <span class="hljs-attr">nacos:</span><br>      <span class="hljs-attr">server-addr:</span> <span class="hljs-string">localhost:8848</span><br>      <span class="hljs-attr">password:</span> <span class="hljs-string">nacos</span><br>      <span class="hljs-attr">username:</span> <span class="hljs-string">nacos</span><br>      <span class="hljs-attr">discovery:</span>  <span class="hljs-comment">#这里是和注册相关的配置</span><br>        <span class="hljs-attr">namespace:</span> <span class="hljs-string">public</span> <span class="hljs-comment">#名称空间</span><br>        <span class="hljs-attr">group:</span> <span class="hljs-string">A_GROUP</span> <span class="hljs-comment">#往哪个组注册</span><br>        <span class="hljs-attr">service:</span> <span class="hljs-string">nacos-client</span>  <span class="hljs-comment">#注册列表服务名称 （默认取 $&#123;spring.application.name&#125;）</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="nacos启动类"><a href="#nacos启动类" class="headerlink" title="nacos启动类"></a><strong>nacos启动类</strong></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-meta">@EnableDiscoveryClient</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NacosClientBApplication</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        SpringApplication.run(NacosClientBApplication.class, args);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="导入的依赖"><a href="#导入的依赖" class="headerlink" title="导入的依赖"></a><strong>导入的依赖</strong></h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">java.version</span>&gt;</span>1.8<span class="hljs-tag">&lt;/<span class="hljs-name">java.version</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="hljs-tag">&lt;/<span class="hljs-name">project.build.sourceEncoding</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">project.reporting.outputEncoding</span>&gt;</span>UTF-8<span class="hljs-tag">&lt;/<span class="hljs-name">project.reporting.outputEncoding</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">spring-boot.version</span>&gt;</span>2.3.12.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">spring-boot.version</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">spring-cloud-alibaba.version</span>&gt;</span>2.2.7.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">spring-cloud-alibaba.version</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">spring-cloud.version</span>&gt;</span>Hoxton.SR12<span class="hljs-tag">&lt;/<span class="hljs-name">spring-cloud.version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!--nacos客户端--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-alibaba-nacos-discovery<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">exclusions</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">exclusion</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.junit.vintage<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>junit-vintage-engine<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">exclusion</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">exclusions</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">dependencyManagement</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;spring-boot.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-alibaba-dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;spring-cloud-alibaba.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;spring-cloud.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependencyManagement</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Nacos特性"><a href="#Nacos特性" class="headerlink" title="Nacos特性"></a>Nacos特性</h2><h3 id="服务分级存储模型"><a href="#服务分级存储模型" class="headerlink" title="服务分级存储模型"></a>服务分级存储模型</h3><p>一个<strong>服务</strong>可以有多个<strong>实例</strong>，例如我们的user-service，可以有:</p>
+<ul>
+<li>192.168.159.1:8081</li>
+<li>192.168.159.1:8082</li>
+<li>192.168.159.1:8083</li>
+</ul>
+<p>假如这些实例分布于全国各地的不同机房，例如：</p>
+<ul>
+<li>192.168.159.1:8081，在上海机房</li>
+<li>192.168.159.1:8082，在上海机房</li>
+<li>192.168.159.1:8083，在杭州机房</li>
+</ul>
+<p>Nacos就将同一机房内的实例 划分为一个<strong>集群</strong>。</p>
+<p>也就是说，user-service是服务，一个服务可以包含多个集群，如杭州、上海，每个集群下可以有多个实例，形成分级模型</p>
+<p>微服务互相访问时，应该尽可能访问同集群实例，因为本地访问速度更快。当本集群内不可用时，才访问其它集群。</p>
+<h4 id="1-给user-service配置集群"><a href="#1-给user-service配置集群" class="headerlink" title="1.给user-service配置集群"></a>1.给user-service配置集群</h4><p>修改user-service的application.yml文件，添加集群配置：</p>
+<p>8081和8082在HZ集群，8083在SH集群</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">cloud:</span><br>    <span class="hljs-attr">nacos:</span><br>      <span class="hljs-attr">server-addr:</span> <span class="hljs-string">localhost:8848</span><br>      <span class="hljs-attr">discovery:</span><br>        <span class="hljs-attr">cluster-name:</span> <span class="hljs-string">HZ</span> <span class="hljs-comment"># 集群名称</span><br></code></pre></td></tr></table></figure>
+
+<p>重启两个userservice实例，点详情</p>
+<p><img src="/images/image-20211119113852999.png" srcset="/img/loading.gif" lazyload alt="image-20211119113852999"> </p>
+<p>在服务详情中查看集群</p>
+<p><img src="/images/image-20211119113933150.png" srcset="/img/loading.gif" lazyload alt="image-20211119113933150"> </p>
+<p>将8083的配置设置集群为SH，添加属性：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">-Dserver.port=8083 <br>-Dspring.cloud.nacos.discovery.cluster-name=SH<br></code></pre></td></tr></table></figure>
+
+<p>配置如图所示：</p>
+<p><img src="/images/image-20211119114040066.png" srcset="/img/loading.gif" lazyload alt="image-20211119114040066"> </p>
+<p>启动UserApplication8083，后再次查看nacos详情：</p>
+<p><img src="/images/image-20211119114231479.png" srcset="/img/loading.gif" lazyload alt="image-20211119114231479"> </p>
+<h4 id="2-同集群优先的负载均衡"><a href="#2-同集群优先的负载均衡" class="headerlink" title="2.同集群优先的负载均衡"></a>2.同集群优先的负载均衡</h4><p>默认的<code>ZoneAvoidanceRule</code>并不能实现根据同集群优先来实现负载均衡。</p>
+<p>因此Nacos中提供了一个<code>NacosRule</code>的实现，可以优先从同集群中挑选实例。</p>
+<p>1）给order-service配置集群信息</p>
+<p>修改order-service的application.yml文件，添加集群配置，放在HZ这个集群中</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">cloud:</span><br>    <span class="hljs-attr">nacos:</span><br>      <span class="hljs-attr">server-addr:</span> <span class="hljs-string">localhost:8848</span><br>      <span class="hljs-attr">discovery:</span><br>        <span class="hljs-attr">cluster-name:</span> <span class="hljs-string">HZ</span> <span class="hljs-comment"># 集群名称</span><br></code></pre></td></tr></table></figure>
+
+<p>2）修改负载均衡规则：修改<strong>order-service</strong>的application.yml文件，修改负载均衡规则：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">userservice:</span><br>  <span class="hljs-attr">ribbon:</span><br>    <span class="hljs-attr">NFLoadBalancerRuleClassName:</span> <span class="hljs-string">com.alibaba.cloud.nacos.ribbon.NacosRule</span> <span class="hljs-comment"># 负载均衡规则 </span><br></code></pre></td></tr></table></figure>
+
+<h3 id="权重配置"><a href="#权重配置" class="headerlink" title="权重配置"></a>权重配置</h3><p>实际部署中会出现这样的场景：</p>
+<p>服务器设备性能有差异，部分实例所在机器性能较好，另一些较差，我们希望性能好的机器承担更多的用户请求。</p>
+<p>但默认情况下NacosRule是同集群内随机挑选，不会考虑机器的性能问题。</p>
+<p>因此，Nacos提供了权重配置来控制访问频率，权重越大则访问频率越高。</p>
+<ol>
+<li><p>再次启动8081和8082服务器</p>
+</li>
+<li><p>在nacos控制台，找到userservice的实例列表，点击编辑，即可修改权重</p>
+</li>
+<li><p>在弹出的编辑窗口，修改权重</p>
+</li>
+<li><p>再次访问，会发现8081被访问到的次数少得多，大约只有8082的五分之一。</p>
+<p>注：userservice微服务器重启以后，权重会还原</p>
+</li>
+</ol>
+<blockquote>
+<p>实例的权重配置</p>
+<p>1.Nacos控制台可设置示例的权重值，0~1之间</p>
+<p>2.同集群类的多个实例，权重越高被访问的频率越高</p>
+<p>3.权重设置为0则完全不会被访问</p>
+</blockquote>
+<p>&#x3D;&#x3D;应用场景：当系统升级时，可以将用户清除，升级之后再放入少量用户测试访问&#x3D;&#x3D;</p>
+<h3 id="环境隔离"><a href="#环境隔离" class="headerlink" title="环境隔离"></a>环境隔离</h3><p>Nacos既是注册中心，又是数据中心。为了便于管理，Nacos提供了namespace来实现环境隔离功能。用于进行租户级别的隔离，我们最常用的就是不同环境比如测试环境，线上环境进行隔离。</p>
+<ul>
+<li>nacos中可以有多个namespace</li>
+<li>namespace下可以有group等。业务相关性比较强的可以放在一组，比如：支付和订单</li>
+<li>不同namespace之间相互隔离，即不同namespace的服务互相不可见</li>
+</ul>
+<h4 id="1-创建namespace"><a href="#1-创建namespace" class="headerlink" title="1.创建namespace"></a>1.创建namespace</h4><blockquote>
+<p>应用场景：基于不同的开发环境变化做隔离操作</p>
+<p>默认情况下，所有service、group都在同一个namespace，名为public：</p>
+<p>打开Nacos服务端界面在命名空间中创建一个新的环境</p>
+</blockquote>
+<h4 id="2-给微服务配置namespace"><a href="#2-给微服务配置namespace" class="headerlink" title="2.给微服务配置namespace"></a>2.给微服务配置namespace</h4><ol>
+<li>给微服务配置namespace只能通过修改配置来实现。</li>
+</ol>
+<p>例如，修改<strong>order-service</strong>的application.yml文件：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">cloud:</span><br>    <span class="hljs-attr">nacos:</span><br>      <span class="hljs-attr">server-addr:</span> <span class="hljs-string">localhost:8848</span><br>      <span class="hljs-attr">discovery:</span><br>        <span class="hljs-attr">namespace:</span> <span class="hljs-string">492a7d5d-237b-46a1-a99a-fa8e98e4b0f9</span> <span class="hljs-comment"># 命名空间，填ID</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Nacos配置管理"><a href="#Nacos配置管理" class="headerlink" title="Nacos配置管理"></a>Nacos配置管理</h2><p>Nacos除了可以做注册中心，同样可以做配置管理来使用。</p>
+<h3 id="1-统一配置管理"><a href="#1-统一配置管理" class="headerlink" title="1.统一配置管理"></a>1.统一配置管理</h3><blockquote>
+<p>当微服务部署的实例越来越多，达到数十、数百时，逐个修改微服务配置就会让人抓狂，而且很容易出错。我们需要一种统一配置管理方案，可以集中管理所有实例的配置。</p>
+<p>Nacos一方面可以将配置集中管理，另一方可以在配置变更时，及时通知微服务，实现配置的热更新。</p>
+</blockquote>
+<h4 id="1-1-在nacos中添加配置文件"><a href="#1-1-在nacos中添加配置文件" class="headerlink" title="1.1 在nacos中添加配置文件"></a>1.1 在nacos中添加配置文件</h4><p>在nacos服务端中找到配置列表 在配置列表中添加配置。</p>
+<blockquote>
+<p>配置文件名id：[服务名]-[profile].[后缀名]</p>
+<p>分组默认即可</p>
+</blockquote>
+<p><font color='red'>注意：项目的核心配置，需要热更新的配置才有放到nacos管理的必要。基本不会变更的一些配置还是保存在微服务本地比较好。通常是一些偶尔会变动的参数。</font></p>
+<h4 id="1-2-从微服务拉取配置"><a href="#1-2-从微服务拉取配置" class="headerlink" title="1.2 从微服务拉取配置"></a>1.2 从微服务拉取配置</h4><p>1.2.1 导入依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--nacos配置管理依赖--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-alibaba-nacos-config<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>1.2.2 添加bootstrap.yaml</p>
+<p>然后，在user-service中添加一个<strong>bootstrap.yaml</strong>文件，内容如下：</p>
+<ol>
+<li>服务名为userservice，注：名字中间没有短横。</li>
+<li>指定激活的配置dev</li>
+<li>指定spring.cloud.nacos.server-addr的服务地址：localhost:8848</li>
+<li>指定spring.cloud.nacos.config.file-extension配置文件的扩展名为yaml</li>
+</ol>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">application:</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">nacos-client</span> <span class="hljs-comment"># 服务名称,注：要与文件名一致</span><br>  <span class="hljs-attr">profiles:</span><br>    <span class="hljs-attr">active:</span> <span class="hljs-string">dev</span> <span class="hljs-comment">#开发环境，这里是dev</span><br>  <span class="hljs-attr">cloud:</span><br>    <span class="hljs-attr">nacos:</span><br>      <span class="hljs-attr">server-addr:</span> <span class="hljs-string">localhost:8848</span> <span class="hljs-comment"># Nacos地址</span><br>      <span class="hljs-attr">config:</span><br>        <span class="hljs-attr">file-extension:</span> <span class="hljs-string">yaml</span> <span class="hljs-comment"># 文件后缀名</span><br><span class="hljs-comment">#        server-addr: localhost:8848</span><br>        <span class="hljs-attr">namespace:</span> <span class="hljs-string">dc2814ff-98c9-4229-abfc-48109c9748cd</span><br>      <span class="hljs-attr">discovery:</span> <span class="hljs-comment">#这里是和注册相关的配置</span><br><span class="hljs-comment">#        server-addr: localhost:8848</span><br>        <span class="hljs-attr">namespace:</span> <span class="hljs-string">dc2814ff-98c9-4229-abfc-48109c9748cd</span><br>        <span class="hljs-attr">group:</span> <span class="hljs-string">A_GROUP</span> <span class="hljs-comment">#往哪个组注册</span><br>        <span class="hljs-attr">cluster-name:</span> <span class="hljs-string">HZ</span>  <span class="hljs-comment">#配置集群名字</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-配置热更新"><a href="#2-配置热更新" class="headerlink" title="2.  配置热更新"></a>2.  配置热更新</h3><h4 id="方式一-RefreshScope"><a href="#方式一-RefreshScope" class="headerlink" title="方式一 @RefreshScope"></a>方式一 @RefreshScope</h4><p>在@Value注入的变量所在类上添加注解@RefreshScope</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-meta">@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NacosBController</span> &#123;<br><br>    <span class="hljs-meta">@Value(&quot;$&#123;pattern.dateformat&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> String dateformat;<br><br>    <span class="hljs-meta">@GetMapping(&quot;/info&quot;)</span><br>    <span class="hljs-keyword">private</span> String <span class="hljs-title function_">hello</span><span class="hljs-params">()</span>&#123;<br>        System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern(dateformat)));<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hello world&quot;</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>&#x3D;&#x3D;注意：有时候开启热部署会出现空指针异常  我们需要在把@RefreshScope改为&#x3D;&#x3D;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RefreshScope</span><br>改为<br><span class="hljs-meta">@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="方式二-ConfigurationProperties"><a href="#方式二-ConfigurationProperties" class="headerlink" title="方式二  @ConfigurationProperties"></a>方式二  @ConfigurationProperties</h4><p>使用@ConfigurationProperties注解代替@Value注解。</p>
+<ol>
+<li><p>去掉UserController上@RefreshScope注解和@Value注解</p>
+</li>
+<li><p>在user-service服务的config包中添加PatternProperties类</p>
+<ol>
+<li>添加@Component注解</li>
+<li>添加@ConfigurationProperties(prefix &#x3D; “pattern”)注解</li>
+<li>添加String dateformat属性</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-meta">@ConfigurationProperties(prefix = &quot;pattern&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NacosBController</span> &#123;<br>    <br>    <span class="hljs-keyword">private</span> String dateformat;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setDateformat</span><span class="hljs-params">(String dateformat)</span> &#123;<br>        <span class="hljs-built_in">this</span>.dateformat = dateformat;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>&#x3D;&#x3D;注意：需要有set方法才能注入&#x3D;&#x3D;</p>
+<blockquote>
+<p>如果出现 未配置spring boot配置注解处理器可以加这个jar包</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-configuration-processor<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="3-配置共享"><a href="#3-配置共享" class="headerlink" title="3. 配置共享"></a>3. 配置共享</h3><p>1.共享配置的说明</p>
+<blockquote>
+<p>应用场景：某个配置在开发，测试，生产环境中的配置是一样的，就可以使用共享配置</p>
+<p>其实微服务启动时，会去nacos读取多个配置文件，例如：</p>
+<ul>
+<li><p><code>[spring.application.name]-[spring.profiles.active].yaml</code>，例如：userservice-dev.yaml</p>
+</li>
+<li><p><code>[spring.application.name].yaml</code>，例如：userservice.yaml</p>
+</li>
+</ul>
+<p>而<code>[spring.application.name].yaml</code>不包含环境，因此可以被多个环境共享。</p>
+</blockquote>
+<h4 id="测试配置共享"><a href="#测试配置共享" class="headerlink" title="测试配置共享"></a>测试配置共享</h4><p>添加一个环境共享配置</p>
+<p>我们在nacos中添加一个userservice.yaml文件</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">pattern:</span> <br>  <span class="hljs-attr">envSharedValue:</span>  <span class="hljs-string">练习两年半的java程序员</span><br></code></pre></td></tr></table></figure>
+
+<p>在user-service服务中，修改UserController，添加一个方法，直接返回PatternProperties对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-meta">@Setter</span><br><span class="hljs-meta">@ConfigurationProperties(prefix = &quot;pattern&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NacosBController</span> &#123;<br><br>    <span class="hljs-keyword">private</span> String dateformat;<br><br>    <span class="hljs-keyword">private</span> String envSharedValue;<br><br>    <span class="hljs-meta">@GetMapping(&quot;/info&quot;)</span><br>    <span class="hljs-keyword">private</span> String <span class="hljs-title function_">hello</span><span class="hljs-params">()</span>&#123;<br>        System.out.println(envSharedValue);<br>        System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern(dateformat)));<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hello world&quot;</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="配置共享的优先级"><a href="#配置共享的优先级" class="headerlink" title="配置共享的优先级"></a>配置共享的优先级</h4><h4 id="1-优先级说明"><a href="#1-优先级说明" class="headerlink" title="1. 优先级说明"></a>1. 优先级说明</h4><p>当nacos、服务本地同时出现相同属性时，优先级有高低之分：</p>
+<p><img src="/images/image-20221018115507923.png" srcset="/img/loading.gif" lazyload alt="image-20221018115507923"></p>
+<h2 id="搭建Nacos集群"><a href="#搭建Nacos集群" class="headerlink" title="搭建Nacos集群"></a>搭建Nacos集群</h2><h3 id="1-集群结构图"><a href="#1-集群结构图" class="headerlink" title="1.集群结构图"></a>1.集群结构图</h3><p>官方给出的Nacos集群图：</p>
+<p>SLB：负载均衡器，负责将我们的请求分发到不同的nacos节点</p>
+<p> <img src="/images/image-20221018115659461.png" srcset="/img/loading.gif" lazyload alt="image-20221018115659461"></p>
+<p>其中包含3个nacos节点，然后一个负载均衡器代理3个Nacos。这里负载均衡器可以使用nginx。</p>
+<p>我们计划的集群结构：</p>
+<p><img src="/images/image-20221018115713505.png" srcset="/img/loading.gif" lazyload alt="image-20221018115713505"></p>
+<p>三个nacos节点的地址：</p>
+<table>
+<thead>
+<tr>
+<th>节点</th>
+<th>换成实际服务器的IP地址</th>
+<th>port</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>nacos1</td>
+<td>192.168.159.1</td>
+<td>8845</td>
+</tr>
+<tr>
+<td>nacos2</td>
+<td>192.168.159.1</td>
+<td>8846</td>
+</tr>
+<tr>
+<td>nacos3</td>
+<td>192.168.159.1</td>
+<td>8847</td>
+</tr>
+</tbody></table>
+<h3 id="2-搭建集群"><a href="#2-搭建集群" class="headerlink" title="2.搭建集群"></a>2.搭建集群</h3><p>搭建集群的基本步骤：</p>
+<ul>
+<li>搭建数据库，初始化数据库表结构</li>
+<li>下载nacos安装包</li>
+<li>配置nacos</li>
+<li>启动nacos集群</li>
+<li>nginx反向代理</li>
+</ul>
+<h4 id="2-1-初始化数据库"><a href="#2-1-初始化数据库" class="headerlink" title="2.1.初始化数据库"></a>2.1.初始化数据库</h4><p>在nacos&#x2F;conf中找到nacos-mysql.sql 直接导入数据库</p>
+<h4 id="2-2-配置Nacos"><a href="#2-2-配置Nacos" class="headerlink" title="2.2.配置Nacos"></a>2.2.配置Nacos</h4><ol>
+<li>创建一个目录名为：nacos-cluster</li>
+<li>进入目录nacos-cluster目录，重新解压安装一份新的nacos</li>
+<li>进入nacos的conf目录，修改配置文件cluster.conf.example，重命名为cluster.conf</li>
+<li>然后添加内容，注意：此处的IP是你自己机器的IP地址，不要写成<strong>127.0.0.1</strong>，否则会导致微服务注册失败</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">192.168.159.1:8845<br>192.168.159.1:8846<br>192.168.159.1:8847<br></code></pre></td></tr></table></figure>
+
+<p>&#x3D;&#x3D;在cmd下使用ipconfig来查看自己的IP地址&#x3D;&#x3D;</p>
+<p>然后修改application.properties文件，修改数据库配置。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># 由于nacos会动态读取当前电脑上任意网卡的ip导致集群环境失败，所以写死当前ip</span><br><span class="hljs-attr">nacos.inetutils.ip-address</span>=<span class="hljs-string">192.168.90.105</span><br><span class="hljs-comment"># mysql的数据库集群</span><br><span class="hljs-attr">spring.datasource.platform</span>=<span class="hljs-string">mysql</span><br><span class="hljs-comment"># 数据库的数量</span><br><span class="hljs-attr">db.num</span>=<span class="hljs-string">1</span><br><span class="hljs-comment"># 连接字符串</span><br><span class="hljs-attr">db.url.0</span>=<span class="hljs-string">jdbc:mysql://127.0.0.1:3306/nacos?characterEncoding=utf8&amp;connectTimeout=1000&amp;socketTimeout=3000&amp;autoReconnect=true&amp;useUnicode=true&amp;useSSL=false&amp;serverTimezone=UTC</span><br><span class="hljs-comment"># 用户名</span><br><span class="hljs-attr">db.user.0</span>=<span class="hljs-string">root</span><br><span class="hljs-comment"># 密码</span><br><span class="hljs-attr">db.password.0</span>=<span class="hljs-string">root</span><br></code></pre></td></tr></table></figure>
+
+<p>这里的数据库地址、用户名、密码请根据实际情况配置。</p>
+<h4 id="2-3-启动"><a href="#2-3-启动" class="headerlink" title="2.3.启动"></a>2.3.启动</h4><p>将nacos改名成nacos1，并且复制两份，分别命名为：nacos2、nacos3</p>
+<p>然后分别修改三个文件夹中的application.properties，大约在21行</p>
+<p>nacos1:</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">server.port</span>=<span class="hljs-string">8845</span><br></code></pre></td></tr></table></figure>
+
+<p>nacos2:</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">server.port</span>=<span class="hljs-string">8846</span><br></code></pre></td></tr></table></figure>
+
+<p>nacos3:</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">server.port</span>=<span class="hljs-string">8847</span><br></code></pre></td></tr></table></figure>
+
+<p>然后打开三个cmd窗口，分别启动三个nacos节点，不需要带参数，默认是集群启动方式，也可以双击运行</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dos">startup.<span class="hljs-built_in">cmd</span><br></code></pre></td></tr></table></figure>
+
+<p>看到以下提示表示启动成功</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">INFO</span> Nacos started successfully <span class="hljs-keyword">in</span> <span class="hljs-keyword">cluster</span> mode. use <span class="hljs-keyword">external</span> <span class="hljs-keyword">storage</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="2-5-nginx反向代理"><a href="#2-5-nginx反向代理" class="headerlink" title="2.5.nginx反向代理"></a>2.5.nginx反向代理</h4><p>修改conf&#x2F;nginx.conf文件，配置如下</p>
+<p>这里使用127.0.0.1不影响</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java">upstream nacos-cluster &#123;<br>	server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">8845</span>;<br>	server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">8846</span>;<br>	server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">8847</span>;<br>&#125;<br><br>server &#123;<br>    listen       <span class="hljs-number">80</span>;<br>    server_name  localhost;<br><br>    location /nacos &#123;<br>        proxy_pass http:<span class="hljs-comment">//nacos-cluster;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>粘贴到http元素的内部位置都可以，不用删除以前的server配置</p>
+<h4 id="2-6-Java代码的修改"><a href="#2-6-Java代码的修改" class="headerlink" title="2.6. Java代码的修改"></a>2.6. Java代码的修改</h4><p>修改userservice服务的bootstrap.yaml文件配置如下：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">cloud:</span><br>    <span class="hljs-attr">nacos:</span><br>      <span class="hljs-attr">server-addr:</span> <span class="hljs-string">localhost:80</span> <span class="hljs-comment"># Nacos地址</span><br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%90%8E%E7%AB%AF/" class="category-chain-item">后端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/java/">#java</a>
+      
+        <a href="/tags/SpringCloud/">#SpringCloud</a>
+      
+        <a href="/tags/Spring/">#Spring</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>nacos服务注册中心</div>
+      <div>http://example.com/2022/06/25/nacos服务注册中心/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>QingAn</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年6月25日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/06/25/SpringCloud%E7%9A%84%E7%89%88%E6%9C%AC%E5%AF%B9%E5%BA%94/" title="SpringCloud的版本对应">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">SpringCloud的版本对应</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/06/25/%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA/" title="链路追踪">
+                        <span class="hidden-mobile">链路追踪</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"CUuWA2AIzpwKyFgvwcacCbi4-gzGzoHsz","appKey":"mQkVUzfrR2cCGeAOkvoTiKEY","path":"window.location.pathname","placeholder":"欢迎评论~~","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <i class="iconfont icon-love"></i> <a target="_blank" href="https://qinganwu.github.io/" rel="nofollow noopener noopener"> <span>QingAn</span> </a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

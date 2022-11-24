@@ -1,0 +1,1413 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E5%B0%8F%E9%BB%84%E9%B8%AD.png">
+  <link rel="icon" href="/img/%E5%B0%8F%E9%BB%84%E9%B8%AD.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="QingAn">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Seata 分布式事务一、分布式事务基础事务概念 事务 指的就是一个操作单元，在这个操作单元中的所有操作最终要保持一致的行为，要么所有操作都成功，要么所有的操作都被撤销。  通俗一点？举个生活中的例子：你去小卖铺买东西，“一手交钱，一手交货”就是一个事务的例子，交钱和交货必 须全部成功，事务才算成功，任一个活动失败，事务将撤销所有已成功的活动。 事务可以看做是一次大的操作，它由不同的小操作组成，这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Seata 分布式事务">
+<meta property="og:url" content="http://example.com/2022/06/25/Seata%20%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/index.html">
+<meta property="og:site_name" content="卿安的小屋">
+<meta property="og:description" content="Seata 分布式事务一、分布式事务基础事务概念 事务 指的就是一个操作单元，在这个操作单元中的所有操作最终要保持一致的行为，要么所有操作都成功，要么所有的操作都被撤销。  通俗一点？举个生活中的例子：你去小卖铺买东西，“一手交钱，一手交货”就是一个事务的例子，交钱和交货必 须全部成功，事务才算成功，任一个活动失败，事务将撤销所有已成功的活动。 事务可以看做是一次大的操作，它由不同的小操作组成，这">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/20180614161151856116.2ac01fe6.png">
+<meta property="og:image" content="http://example.com/images/9c9a739e307f0402b809d9cd73ca615e.6eb1d80d.png">
+<meta property="og:image" content="http://example.com/images/f8fa8ddb91a676b5785a250c8dd32293.f4c1fbbe.png">
+<meta property="og:image" content="http://example.com/images/727b6082cab9df407a18deda9561b220.34f229d3.png">
+<meta property="og:image" content="http://example.com/images/v2-135c492dbc2225ca86af34b837e446fa_720w.2a34b8c0.jpg">
+<meta property="og:image" content="http://example.com/images/3502082566-5c4a661a9218b_articlex.54b8ac70.png">
+<meta property="og:image" content="http://example.com/images/1596013327168.920a1813.png">
+<meta property="og:image" content="http://example.com/images/20190728151110384.b8278b57.png">
+<meta property="og:image" content="http://example.com/images/1596360577153.3453f839.png">
+<meta property="og:image" content="http://example.com/images/1596376239082.8842458a.png">
+<meta property="og:image" content="http://example.com/images/1596377554340.ccaebf14.png">
+<meta property="og:image" content="http://example.com/images/1596376604142.7f3e53e1.png">
+<meta property="og:image" content="http://example.com/images/524341-20180325171902592-920273519.5f6e5bc9.png">
+<meta property="og:image" content="http://example.com/images/20200404210707529.cf34d3a4.png">
+<meta property="og:image" content="http://example.com/images/20190111162350679.e96dcaa6.png">
+<meta property="og:image" content="http://example.com/images/2019011116331336.cabc193e.png">
+<meta property="og:image" content="http://example.com/images/20190111165648443.dce2da21.png">
+<meta property="og:image" content="http://example.com/images/20190111170100578.34b092d0.png">
+<meta property="og:image" content="http://example.com/images/image-20210724172326452.png">
+<meta property="og:image" content="http://example.com/images/1655259358571.png">
+<meta property="og:image" content="http://example.com/images/image-20210622202357640.png">
+<meta property="og:image" content="http://example.com/images/image-20210622202515014.png">
+<meta property="og:image" content="http://example.com/images/image-20210622202622874.png">
+<meta property="og:image" content="http://example.com/images/image-20210622203609227.png">
+<meta property="og:image" content="http://example.com/images/image-20210622205427318.png">
+<meta property="og:image" content="http://example.com/images/image-20210622205901450.png">
+<meta property="og:image" content="http://example.com/images/image-20210724173654258.png">
+<meta property="og:image" content="http://example.com/images/image-20210724174102768.png">
+<meta property="og:image" content="http://example.com/images/image-20210724174234987.png">
+<meta property="og:image" content="http://example.com/images/image-20210724174424070.png">
+<meta property="og:image" content="http://example.com/images/image-20210724174859556.png">
+<meta property="og:image" content="http://example.com/images/image-20210724175327511.png">
+<meta property="og:image" content="http://example.com/images/image-20210724180722921.png">
+<meta property="og:image" content="http://example.com/images/image-20210724181541234.png">
+<meta property="og:image" content="http://example.com/images/image-20210724181843029.png">
+<meta property="og:image" content="http://example.com/images/1639236437083.png">
+<meta property="og:image" content="http://example.com/images/image-20210724182217272.png">
+<meta property="og:image" content="http://example.com/images/1667112472680.png">
+<meta property="og:image" content="http://example.com/images/1667112481574.png">
+<meta property="og:image" content="http://example.com/images/1667112592878.png">
+<meta property="og:image" content="http://example.com/images/image-20210724182424907.png">
+<meta property="og:image" content="http://example.com/images/image-20210724182457951.png">
+<meta property="og:image" content="http://example.com/images/image-20210724182706011.png">
+<meta property="og:image" content="http://example.com/images/image-20210724182810734.png">
+<meta property="og:image" content="http://example.com/images/image-20210724182937713.png">
+<meta property="og:image" content="http://example.com/images/image-20210724183426891.png">
+<meta property="og:image" content="http://example.com/images/1667115061157.png">
+<meta property="og:image" content="http://example.com/images/1667116558927.png">
+<meta property="og:image" content="http://example.com/images/image-20210724184846396.png">
+<meta property="og:image" content="http://example.com/images/image-20210724185021819.png">
+<meta property="article:published_time" content="2022-06-25T11:20:40.000Z">
+<meta property="article:modified_time" content="2022-11-24T16:09:02.912Z">
+<meta property="article:author" content="QingAn">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="SpringCloud">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/images/20180614161151856116.2ac01fe6.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Seata 分布式事务 - 卿安的小屋</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":110,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>卿安的小屋</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Seata 分布式事务"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-25 19:20" pubdate>
+          2022年6月25日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          26k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          219 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Seata 分布式事务</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Seata-分布式事务"><a href="#Seata-分布式事务" class="headerlink" title="Seata 分布式事务"></a>Seata 分布式事务</h1><h2 id="一、分布式事务基础"><a href="#一、分布式事务基础" class="headerlink" title="一、分布式事务基础"></a>一、分布式事务基础</h2><h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><blockquote>
+<p>事务</p>
+<p>指的就是一个操作单元，在这个操作单元中的所有操作最终要保持一致的行为，要么所有操作都成功，要么所有的操作都被撤销。</p>
+</blockquote>
+<p>通俗一点？举个生活中的例子：你去小卖铺买东西，“一手交钱，一手交货”就是一个事务的例子，交钱和交货必 须全部成功，事务才算成功，任一个活动失败，事务将撤销所有已成功的活动。</p>
+<p>事务可以看做是一次大的操作，它由不同的小操作组成，这些操作要么全部成功，要么全部失败。</p>
+<blockquote>
+<p>例如</p>
+<p>转账：包含<strong>转出</strong>和<strong>转入</strong>操作</p>
+<p>网购：包含<strong>下单</strong>、<strong>扣减库存</strong>、<strong>支付</strong>操作</p>
+</blockquote>
+<h4 id="事务的4个特性ACID"><a href="#事务的4个特性ACID" class="headerlink" title="事务的4个特性ACID"></a>事务的4个特性ACID</h4><p><img src="/images/20180614161151856116.2ac01fe6.png" srcset="/img/loading.gif" lazyload alt="事务特性"></p>
+<p><strong>原子性</strong>（Atomicity）：操作这些指令时，要么全部执行成功，要么全部不执行。只要其中一个指令执行失败，所有的指令都执行失败，数据进行回滚，回到执行指令前的数据状态。<font color="[green](javascript:;)">要么执行，要么不执行</font></p>
+<p><strong>一致性</strong>（Consistency）：事务的执行使数据从一个状态转换为另一个状态，数据库的完整性约束没有被破坏。<font color="[green](javascript:;)">能量守恒，总量不变</font></p>
+<blockquote>
+<p><strong>eg：</strong> 拿转账来说，假设用户A和用户B两者的钱加起来一共是2000，那么不管A和B之间如何转账，转几次账，事务结束后两个用户的钱相加起来应该还得是2000，这就是事务的一致性。</p>
+</blockquote>
+<p><strong>隔离性</strong>（Isolation）：隔离性是当多个用户并发访问数据库时，比如操作同一张表时，数据库为每一个用户开启的事务，不能被其他事务的操作所干扰，多个并发事务之间要相互隔离。<font color="[green](javascript:;)">信息彼此独立，互不干扰</font></p>
+<blockquote>
+<p>即要达到这么一种效果：对于任意两个并发的事务T1和T2，在事务T1看来，T2要么在T1开始之前就已经结束，要么在T1结束之后才开始，这样每个事务都感觉不到有其他事务在并发地执行。</p>
+</blockquote>
+<p><strong>持久性</strong>（Durability）：当事务正确完成后，它对于数据的改变是永久性的。<font color="[green](javascript:;)">不会轻易丢失</font></p>
+<blockquote>
+<p>eg： 例如我们在使用JDBC操作数据库时，在提交事务方法后，提示用户事务操作完成，当我们程序执行完成直到看到提示后，就可以认定事务以及正确提交，即使这时候数据库出现了问题，也必须要将我们的事务完全执行完成，否则就会造成我们看到提示事务处理完毕，但是数据库因为故障而没有执行事务的重大错误。</p>
+</blockquote>
+<h4 id="本地事务实现"><a href="#本地事务实现" class="headerlink" title="本地事务实现"></a>本地事务实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">begin transaction； <br><span class="hljs-comment">//1.本地数据库操作：张三减少金额 </span><br><span class="hljs-comment">//2.本地数据库操作：李四增加金额 </span><br>commit transation;<br></code></pre></td></tr></table></figure>
+
+<h3 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h3><p>随着互联网的快速发展，软件系统由原来的单体应用转变为分布式应用，下图描述了单体应用向微服务的演变：分布式系统会把一个应用系统拆分为可独立部署的多个服务，因此需要服务与服务之间远程协作才能完成事务操 作，这种分布式系统环境下由不同的服务之间通过网络远程协作完成事务称之为分布式事务，例如用户注册送积分 事务、创建订单减库存事务，银行转账事务等都是分布式事务。</p>
+<p><img src="/images/9c9a739e307f0402b809d9cd73ca615e.6eb1d80d.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>典型的场景就是微服务架构 微服务之间通过远程调用完成事务操作。 比如：订单微服务和库存微服务，下单的 同时订单微服务请求库存微服务减库存。 简言之：跨JVM进程产生分布式事务。</p>
+<h4 id="分布式事务实现"><a href="#分布式事务实现" class="headerlink" title="分布式事务实现"></a>分布式事务实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">begin transaction；<br><span class="hljs-comment">//1.本地数据库操作：张三减少金额</span><br><span class="hljs-comment">//2.远程调用：让李四增加金额 </span><br>commit transation;<br></code></pre></td></tr></table></figure>
+
+<p>可以设想，当远程调用让李四增加金额成功了，由于网络问题远程调用并没有返回，此时本地事务提交失败就回滚 了张三减少金额的操作，此时张三和李四的数据就不一致了。 因此在分布式架构的基础上，传统数据库事务就无法使用了，张三和李四的账户不在一个数据库中甚至不在一个应 用系统里，实现转账事务需要通过远程调用，由于网络问题就会导致分布式事务问题。</p>
+<h4 id="分布式事务产生场景"><a href="#分布式事务产生场景" class="headerlink" title="分布式事务产生场景"></a>分布式事务产生场景</h4><ol>
+<li>跨JVM进程产生分布式事务</li>
+</ol>
+<p>典型的场景就是微服务架构 微服务之间通过远程调用完成事务操作。 比如：订单微服务和库存微服务，下单的 同时订单微服务请求库存微服务减库存。</p>
+<p><img src="/images/f8fa8ddb91a676b5785a250c8dd32293.f4c1fbbe.png" srcset="/img/loading.gif" lazyload alt="2.png"></p>
+<ol start="2">
+<li>跨数据库实例</li>
+</ol>
+<p>单体系统访问多个数据库实例 当单体系统需要访问多个数据库（实例）时就会产生分布式事务。 比如：用户信 息和订单信息分别在两个MySQL实例存储，用户管理系统删除用户信息，需要分别删除用户信息及用户的订单信 息，由于数据分布在不同的数据实例，需要通过不同的数据库链接去操作数据，此时产生分布式事务。</p>
+<p><img src="/images/727b6082cab9df407a18deda9561b220.34f229d3.png" srcset="/img/loading.gif" lazyload alt="3.png"></p>
+<p>我们了解到了分布式事务的基础概念。与本地事务不同的是，分布式系统之所以叫分布式，是因 为提供服务的各个节点分布在不同机器上，相互之间通过网络交互。不能因为有一点网络问题就导致整个系统无法 提供服务，网络因素成为了分布式事务的考量标准之一。因此，分布式事务需要更进一步的理论支持，接下来，我们先来学习一下分布式事务的CAP理论。</p>
+<h3 id="CAP原则"><a href="#CAP原则" class="headerlink" title="CAP原则"></a>CAP原则</h3><p>CAP原则又叫CAP定理，同时又被称作布鲁尔定理（Brewer’s theorem），指的是在一个分布式系统中，<strong>不可能同时满足以下三点</strong>。</p>
+<p><img src="/images/v2-135c492dbc2225ca86af34b837e446fa_720w.2a34b8c0.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<ul>
+<li><p>一致性（Consistency）副本最新：指强一致性，在写操作完成后开始的任何读操作都必须返回该值，或者后续写操作的结果。</p>
+<blockquote>
+<p>也就是说，在一致性系统中，一旦客户端将值写入任何一台服务器并获得响应，那么之后client从其他任何服务器读取的都是刚写入的数据</p>
+<p>一致性保证了不管向哪台服务器写入数据，其他的服务器能实时同步数据</p>
+</blockquote>
+</li>
+<li><p>可用性（Availability）高可用：可用性是指，每次向未崩溃的节点发送请求，总能保证收到响应数据（允许不是最新数据）</p>
+</li>
+</ul>
+<blockquote>
+<p>什么是分区？ </p>
+<p>在分布式系统中，不同的节点分布在不同的子网络中，由于一些特殊的原因，这些子节点之间出现了网络不通的状态，但他们的内部子网络是正常的。从而导致了整个系统的环境被切分成了若干个孤立的区域。这就是分区。</p>
+</blockquote>
+<ul>
+<li>分区容忍性（Partition tolerance）能容忍网络分区：分布式系统在遇到任何网络分区故障的时候，仍然能够对外提供满足一致性和可用性的服务，也就是说，服务器A和B发送给对方的任何消息都是可以放弃的，也就是说A和B可能因为各种意外情况，导致无法成功进行同步，分布式系统要能容忍这种情况。除非整个网络环境都发生了故障。</li>
+</ul>
+<p><img src="/images/3502082566-5c4a661a9218b_articlex.54b8ac70.png" srcset="/img/loading.gif" lazyload alt="clipboard.png"></p>
+<blockquote>
+<p>容许节点 G1&#x2F;G2 间传递消息的差错（延迟或丢失），而不影响系统继续运行。</p>
+<p>以实际效果而言，分区相当于对通信的时限要求。系统如果不能在时限内达成数据一致性，就意味着发生了分区的情况，必须就当前操作在C和A之间做出选择。</p>
+</blockquote>
+<p><strong>为什么只能在A和C之间做出取舍？</strong></p>
+<p>分布式系统中，必须满足 CAP 中的 P，此时只能在 C&#x2F;A 之间作出取舍。</p>
+<p>整个系统由两个节点配合组成，之间通过网络通信，当节点 A 进行更新数据库操作的时候，需要同时更新节点 B 的数据库（这是一个原子的操作）。</p>
+<p>下面这个系统怎么满足 CAP 呢？我们用反证法 假设可以同时满足一致性、可用性、分区容错这三个特性，由于满足分区容错，可以切断 A&#x2F;B 的连线，如下图：</p>
+<p><img src="/images/1596013327168.920a1813.png" srcset="/img/loading.gif" lazyload alt="1596013327168"></p>
+<blockquote>
+<p>可见，根本完成不了，只要出现了网络分区，A 就无法满足，因为节点 A 根本连接不上节点 B。如果强行满足 C 原子性，就必须停止服务运行，从而放弃可用性 C。 </p>
+<ul>
+<li><p>若要保证一致性：则必须进行节点间数据同步，同步期间数据锁定，导致期间的读取失败或超时，破坏了可用性； </p>
+</li>
+<li><p>若要保证可用性：则不允许节点间同步期间锁定，这又破坏了一致性。</p>
+</li>
+</ul>
+</blockquote>
+<p>所以，最多满足两个条件：</p>
+<table>
+<thead>
+<tr>
+<th>组 合</th>
+<th>分析结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CA</td>
+<td>满足原子和可用，放弃分区容错。说白了，就是一个整体的应用。</td>
+</tr>
+<tr>
+<td>CP</td>
+<td>满足原子和分区容错，也就是说，要放弃可用。当系统被分区，为了保证原子性，必须放弃可用性，让服务停用。</td>
+</tr>
+<tr>
+<td>AP</td>
+<td>满足可用性和分区容错，当出现分区，同时为了保证可用性，必须让节点继续对外服务，这样必然导致失去原子性。</td>
+</tr>
+</tbody></table>
+<h4 id="如何权衡保-C还是保A？"><a href="#如何权衡保-C还是保A？" class="headerlink" title="如何权衡保 C还是保A？"></a>如何权衡保 <font color="[green](javascript:;)">C还是保A</font>？</h4><p><strong>取舍</strong></p>
+<ul>
+<li><p>舍弃P(选择C&#x2F;A)：单点的传统关系型数据库 DBMS(MySQL&#x2F;Oracle)，但如果采用集群就必须考虑P了；</p>
+</li>
+<li><p>舍弃A(选择C&#x2F;P)：是分布式系统要保证P，而且保证一致性，如 MongoDB &#x2F; HBase；</p>
+</li>
+<li><p>舍弃C(选择A&#x2F;P)：是分布式系统要保证P，而且保证可用性，如 CoachDB &#x2F; Cassandra &#x2F; DynamoDB。</p>
+</li>
+<li><blockquote>
+<p>注：redis-cluster是AP，zookeeper写入强一致，读取是顺序一致性(即弱一致)。</p>
+</blockquote>
+</li>
+</ul>
+<p>对于一个分布式系统来说，CAP三者中，</p>
+<ul>
+<li>P是基本要求，只能通过基础设施提升，无法通过降低 C&#x2F;A 来提升；</li>
+<li>然后在 C&#x2F;A 两者之间权衡。</li>
+</ul>
+<p>一个还不错的策略是：保证可用性和分区容错，舍弃强一致性，但保证最终一致性，比如一些高并发的站点（秒杀、淘宝、12306）。最终近似于兼顾了三个特性。</p>
+<h3 id="一致性-数据一致性"><a href="#一致性-数据一致性" class="headerlink" title="一致性     数据一致性"></a>一致性     <font color="[green](javascript:;)">数据一致性</font></h3><p>一致性可以分为强一致性与弱一致性。所谓强一致性，即复制是同步的，弱一致性，即复制是异步的。</p>
+<blockquote>
+<p>CAP回顾 </p>
+<p>CAP理论告诉我们一个悲惨但不得不接受的事实——我们只能在C、A、P中选择两个条件。而对于业务系统而言，我们往往选择牺牲一致性来换取系统的可用性和分区容错性。不过这里要指出的是，所谓的“牺牲一致性”并不是完全放弃数据一致性，而是牺牲强一致性换取弱一致性。</p>
+</blockquote>
+<h4 id="强一致性"><a href="#强一致性" class="headerlink" title="强一致性"></a>强一致性</h4><p>系统中的某个数据被成功更新后，后续任何对该数据的读取操作都将得到更新后的值；</p>
+<p>也称为：原子一致性（Atomic Consistency）线性一致性（Linearizable Consistency）</p>
+<p>两个要求：</p>
+<ul>
+<li>任何一次读都能读到某个数据的最近一次写的数据。</li>
+<li>系统中的所有进程，看到的操作顺序，都和全局时钟下的顺序一致。</li>
+</ul>
+<p>简言之，在任意时刻，所有节点中的数据是一样的。例如，对于关系型数据库，要求更新过的数据能被后续的访问都能看到，这是强一致性。</p>
+<p>总结：</p>
+<ul>
+<li>一个集群需要对外部提供强一致性，所以只要集群内部某一台服务器的数据发生了改变，那么就需要等待集群内其他服务器的数据同步完成后，才能正常的对外提供服务。</li>
+<li>保证了强一致性，务必会损耗可用性。</li>
+</ul>
+<h4 id="弱一致性"><a href="#弱一致性" class="headerlink" title="弱一致性"></a>弱一致性</h4><p>系统中的某个数据被更新后，后续对该数据的读取操作可能得到更新后的值，也可能是更改前的值。 但即使过了不一致时间窗口这段时间后，后续对该数据的读取也不一定是最新值 所以说，可以理解为数据更新后，如果能容忍后续的访问只能访问到部分或者全部访问不到，则是弱一致性。</p>
+<h4 id="最终一致性"><a href="#最终一致性" class="headerlink" title="最终一致性"></a>最终一致性</h4><p>是弱一致性的特殊形式，存储系统保证在没有新的更新的条件下，最终所有的访问都是最后更新的值。 不保证在任意时刻任意节点上的同一份数据都是相同的，但是随着时间的迁移，不同节点上的同一份数据总是在向趋同的方向变化。 简单说，就是在一段时间后，节点间的数据会最终达到一致状态。 </p>
+<h4 id="一致性总结"><a href="#一致性总结" class="headerlink" title="一致性总结"></a>一致性总结</h4><p>弱一致性即使过了不一致时间窗口，后续的读取也不一定能保证一致，而最终一致过了不一致窗口后，后续的读取一定一致</p>
+<p><img src="/images/20190728151110384.b8278b57.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h4 id="Base理论"><a href="#Base理论" class="headerlink" title="Base理论"></a>Base理论</h4><ul>
+<li><p>BA：Basic Available  <font color="[green](javascript:;)">基本可用</font></p>
+<ul>
+<li>整个系统在某些不可抗力的情况下，仍然能够保证“可用性”，即一定时间内仍然能够返回一个明确的结果。只不过“基本可用”和“高可用”的区别是：<ul>
+<li>“一定时间”可以适当延长 当举行大促时，响应时间可以适当延长</li>
+<li>给部分用户返回一个降级页面 给部分用户直接返回一个降级页面，从而缓解服务器压力。但要注意，返回降级页面仍然是返回明确结果。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>S：Soft State  <font color="[green](javascript:;)">柔性状态</font>： 是指允许系统中的数据存在中间状态，并认为该中间状态的存在不会影响系统的整体可用性，即允许系统不同节点的数据副本之间进行数据同步的过程存在延时。</p>
+</li>
+<li><p>E：Eventual Consisstency   <font color="[green](javascript:;)">最终一致性</font>： 同一数据的不同副本的状态，可以不需要实时一致，但一定要保证经过一定时间后仍然是一致的。</p>
+</li>
+</ul>
+<p>BASE理论是对CAP中的一致性和可用性进行一个权衡的结果，理论的核心思想就是：我们无法做到强一致，但每个应用都可以根据自身的业务特点，采用适当的方式来使系统达到最终一致性（Eventual consistency）。</p>
+<h3 id="分布式事务协议"><a href="#分布式事务协议" class="headerlink" title="分布式事务协议"></a>分布式事务协议</h3><blockquote>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景 "></a><font color="[green](javascript:;)">背景 </font></h3><h3 id="在分布式系统里，每个节点都可以知晓自己操作的成功或者失败，却无法知道其他节点操作的成功或失败。当一个事务跨多个节点时，为了保持事务的原子性与一致性，而引入一个协调者来统一掌控所有参与者的操作结果，并指示它们是否要把操作结果进行真正的提交或者回滚（rollback）。"><a href="#在分布式系统里，每个节点都可以知晓自己操作的成功或者失败，却无法知道其他节点操作的成功或失败。当一个事务跨多个节点时，为了保持事务的原子性与一致性，而引入一个协调者来统一掌控所有参与者的操作结果，并指示它们是否要把操作结果进行真正的提交或者回滚（rollback）。" class="headerlink" title="在分布式系统里，每个节点都可以知晓自己操作的成功或者失败，却无法知道其他节点操作的成功或失败。当一个事务跨多个节点时，为了保持事务的原子性与一致性，而引入一个协调者来统一掌控所有参与者的操作结果，并指示它们是否要把操作结果进行真正的提交或者回滚（rollback）。"></a>在分布式系统里，每个节点都可以知晓自己操作的成功或者失败，却无法知道其他节点操作的成功或失败。当一个事务跨多个节点时，为了保持事务的原子性与一致性，而引入一个协调者来统一掌控所有参与者的操作结果，并指示它们是否要把操作结果进行真正的提交或者回滚（rollback）。</h3></blockquote>
+<p>二阶段提交<font color="[green](javascript:;)">2PC </font></p>
+<p>二阶段提交协议（Two-phase Commit，即 2PC）是常用的分布式事务解决方案，即将事务的提交过程分为两个阶段来进行处理。</p>
+<p> 阶段 </p>
+<ul>
+<li><p>准备阶段</p>
+</li>
+<li><p>提交阶段</p>
+</li>
+</ul>
+<p><strong>参与角色</strong></p>
+<ul>
+<li>协调者：事务的发起者</li>
+<li>参与者：事务的执行者</li>
+</ul>
+<h4 id="1-第一阶段（voting-phase投票阶段）（）："><a href="#1-第一阶段（voting-phase投票阶段）（）：" class="headerlink" title="1. 第一阶段（voting phase投票阶段）（）："></a><strong>1. 第一阶段（voting phase投票阶段）（）：</strong></h4><ol>
+<li>协调者向所有参与者发送事务内容，询问是否可以提交事务，并等待答复</li>
+<li>各参与者执行事务操作，将 undo 和 redo 信息记入事务日志中（但不提交事务）</li>
+<li>如参与者执行成功，给协调者反馈<strong>同意</strong>，否则反馈<strong>中止</strong></li>
+</ol>
+<p><img src="/images/1596360577153.3453f839.png" srcset="/img/loading.gif" lazyload alt="1596360577153"></p>
+<h4 id="2-第二阶段（commit-phase提交执行阶段）："><a href="#2-第二阶段（commit-phase提交执行阶段）：" class="headerlink" title="2. 第二阶段（commit phase提交执行阶段）："></a><strong>2. 第二阶段（commit phase提交执行阶段）：</strong></h4><p>当协调者节点从所有参与者节点获得的相应消息都为<strong>同意</strong>时：</p>
+<ol>
+<li>协调者节点向所有参与者节点发出<strong>正式提交</strong>(<code>commit</code>)的请求。</li>
+<li>参与者节点正式完成操作，并释放在整个事务期间内占用的资源。</li>
+<li>参与者节点向协调者节点发送<strong>ack完成</strong>消息。</li>
+<li>协调者节点收到所有参与者节点反馈的<strong>ack完成</strong>消息后，完成事务。</li>
+</ol>
+<p><img src="/images/1596376239082.8842458a.png" srcset="/img/loading.gif" lazyload alt="1596376239082"></p>
+<p>如果任一参与者节点在第一阶段返回的响应消息为<strong>中止</strong>，或者 协调者节点在第一阶段的询问超时之前无法获取所有参与者节点的响应消息时：</p>
+<ol>
+<li><p>协调者节点向所有参与者节点发出<strong>回滚操作</strong>(<code>rollback</code>)的请求。</p>
+</li>
+<li><p>参与者节点利用阶段1写入的undo信息执行回滚，并释放在整个事务期间内占用的资源。</p>
+</li>
+<li><p>参与者节点向协调者节点发送<strong>ack回滚完成</strong>消息。</p>
+</li>
+<li><p>协调者节点受到所有参与者节点反馈的<strong>ack回滚完成</strong>消息后，取消事务。</p>
+<p>不管最后结果如何，第二阶段都会结束当前事务。</p>
+</li>
+</ol>
+<p><img src="/images/1596377554340.ccaebf14.png" srcset="/img/loading.gif" lazyload alt="1596377554340"></p>
+<p><img src="/images/1596376604142.7f3e53e1.png" srcset="/img/loading.gif" lazyload alt="1596376604142"></p>
+<p><strong>两阶段案例</strong></p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs erlang">学校运动会上，<span class="hljs-number">100</span>米决赛正准备开始，裁判对<span class="hljs-number">3</span>个人分别询问<br>裁判：张三同学你准备好了吗？准备好了进第一赛道<br>张三：准备好了，随即进入第一赛道做好冲击姿势<br>裁判：李四同学你准备好了吗？准备好了进第二赛道<br>裁判：王五同学你准备好了吗？准备好了进第三赛道<br>王五：准备好了，.....<br>李四：准备好了，.....<br>...<br>如果有人没准备好，不同意，则裁判下达回滚指令<br><br>如果裁判收到了所有人的OK回复后，再次下令<br>裁判：跑...<br>...<br>张三、李四、执行完毕到达终点，汇报给了裁判<br>王五冲刺失败，汇报给了裁判<br></code></pre></td></tr></table></figure>
+
+<p>二阶段提交看起来确实能够提供原子性的操作，但是不幸的是，二阶段提交还是有几个缺点的：</p>
+<ol>
+<li><strong>性能问题</strong>：执行过程中，所有参与节点都是事务阻塞型的。当参与者占有公共资源时，其他第三方节点访问公共资源不得不处于阻塞状态。</li>
+<li><strong>可靠性问题</strong>：参与者发生故障。协调者需要给每个参与者额外指定超时机制，超时后整个事务失败。协调者发生故障。参与者会一直阻塞下去。需要额外的备机进行容错。</li>
+<li><strong>可靠性问题</strong>：参与者发生故障。协调者需要给每个参与者额外指定超时机制，超时后整个事务失败。协调者发生故障。参与者会一直阻塞下去。需要额外的备机进行容错。</li>
+</ol>
+<blockquote>
+<p>优点</p>
+<p>尽量保证了数据的强一致，适合对数据强一致要求很高的关键领域。（其实也不能100%保证强一致）</p>
+</blockquote>
+<blockquote>
+<p>缺点</p>
+<p>实现复杂，牺牲了可用性，对性能影响较大，不适合高并发高性能场景。</p>
+</blockquote>
+<blockquote>
+<p>为此，Dale Skeen和Michael Stonebraker在“A Formal Model of Crash Recovery in a Distributed System”中提出了三阶段提交协议（3PC）。</p>
+</blockquote>
+<h4 id="三阶段提交（3PC）"><a href="#三阶段提交（3PC）" class="headerlink" title="三阶段提交（3PC）"></a>三阶段提交（3PC）</h4><p>三阶段提交协议，是二阶段提交协议的改进版本，三阶段提交有两个改动点。</p>
+<ul>
+<li>在协调者和参与者中都引入超时机制。</li>
+<li>在第一阶段和第二阶段中插入一个准备阶段。保证了在最后提交阶段之前各参与节点的状态是一致的。</li>
+</ul>
+<p>也就是说，除了引入超时机制之外，3PC把2PC的准备阶段再次一分为二，这样三阶段提交就有<code>CanCommit</code>、<code>PreCommit</code>、<code>DoCommit</code>三个阶段。处理流程如下：</p>
+<p><img src="/images/524341-20180325171902592-920273519.5f6e5bc9.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>小例子</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs css">班长要组织全班同学聚餐，由于大家毕业多年，所以要逐个打电话敲定时间，时间初定<span class="hljs-number">10.1</span>日。然后开始逐个打电话。<br><br>班长：小<span class="hljs-selector-tag">A</span>，我们想定在<span class="hljs-number">10.1</span>号聚会，你有时间嘛？有时间你就说YES，没有你就说NO，然后我还会再去问其他人，具体时间地点我会再通知你，这段时间你可先去干你自己的事儿，不用一直等着我。（协调者询问事务是否可以执行，这一步不会锁定资源）<br><br>小<span class="hljs-selector-tag">A</span>：好的，我有时间。（参与者反馈）<br><br>班长：小<span class="hljs-selector-tag">B</span>，我们想定在<span class="hljs-number">10.1</span>号聚会……不用一直等我。<br><br>班长收集完大家的时间情况了，一看大家都有时间，那么就再次通知大家。（协调者接收到所有YES指令）<br><br>班长：小<span class="hljs-selector-tag">A</span>，我们确定了<span class="hljs-number">10.1</span>号聚餐，你要把这一天的时间空出来，这一天你不能再安排其他的事儿了。然后我会逐个通知其他同学，通知完之后我会再来和你确认一下，还有啊，如果我没有特意给你打电话，你就<span class="hljs-number">10.1</span>号那天来聚餐就行了。对了，你确定能来是吧？（协调者发送事务执行指令，这一步锁住资源。如果由于网络原因参与者在后面没有收到协调者的命令，他也会执行commit）<br><br>小<span class="hljs-selector-tag">A</span>顺手在自己的日历上把<span class="hljs-number">10.1</span>号这一天圈上了，然后跟班长说，我可以去。（参与者执行事务操作，反馈状态）<br><br>班长：小<span class="hljs-selector-tag">B</span>，我们觉得了<span class="hljs-number">10.1</span>号聚餐……你就<span class="hljs-number">10.1</span>号那天来聚餐就行了。<br><br>班长通知完一圈之后。所有同学都跟他说：”我已经把<span class="hljs-number">10.1</span>号这天空出来了”。于是，他在<span class="hljs-number">10.1</span>号这一天又挨个打了一遍电话告诉他们：嘿，现在你们可以出门拉。。。。（协调者收到所有参与者的ACK响应，通知所有参与者执行事务的commit）<br><br>小<span class="hljs-selector-tag">A</span>，小<span class="hljs-selector-tag">B</span>：我已经出门拉。（执行commit操作，反馈状态）<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="/images/20200404210707529.cf34d3a4.png" srcset="/img/loading.gif" lazyload alt="3pc"></p>
+<p><strong>阶段一：CanCommit阶段</strong></p>
+<p>3PC的<code>CanCommit</code>阶段其实和2PC的准备阶段很像。协调者向参与者发送<code>commit</code>请求，参与者如果可以提交就返回Yes响应，否则返回No响应。</p>
+<ol>
+<li>事务询问 协调者向所有参与者发出包含事务内容的 <code>canCommit</code> 请求，询问是否可以提交事务，并等待所有参与者答复。</li>
+<li>响应反馈 参与者收到 <code>canCommit</code> 请求后，如果认为可以执行事务操作，则反馈 yes 并进入预备状态，否则反馈 no。</li>
+</ol>
+<p><strong>2.PreCommit阶段</strong></p>
+<p>协调者根据参与者的反应情况来决定是否可以进行事务的<code>PreCommit</code>操作。根据响应情况，有以下两种可能。</p>
+<ul>
+<li><p>假如所有参与者均反馈 yes，协调者预执行事务。</p>
+<ol>
+<li><p>发送预提交请求 ：协调者向参与者发送<code>PreCommit</code>请求，并进入准备阶段</p>
+</li>
+<li><p>事务预提交 ：参与者接收到<code>PreCommit</code>请求后，会执行事务操作，并将<code>undo</code>和<code>redo</code>信息记录到事务日志中（但不提交事务）</p>
+</li>
+<li><p>响应反馈 ：如果参与者成功的执行了事务操作，则返回<strong>ACK</strong>响应，同时开始等待最终指令。</p>
+</li>
+</ol>
+</li>
+</ul>
+<p><img src="/images/20190111162350679.e96dcaa6.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<ul>
+<li>假如有任何一个参与者向协调者发送了No响应，或者等待超时之后，协调者都没有接到参与者的响应，那么就执行事务的中断。</li>
+</ul>
+<ol>
+<li><p>发送中断请求 ：协调者向所有参与者发送<code>abort</code>请求。</p>
+</li>
+<li><p>中断事务 ：参与者收到来自协调者的<code>abort</code>请求之后（或超时之后，仍未收到协调者的请求），执行事务的中断。</p>
+<p><img src="/images/2019011116331336.cabc193e.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+</li>
+</ol>
+<p><strong>3. doCommit阶段</strong> 该阶段进行真正的事务提交，也可以分为以下两种情况。</p>
+<blockquote>
+<p>注意：进入阶段 3 后，无论协调者出现问题，或者协调者与参与者网络出现问题，都会导致参与者无法接收到协调者发出的 do Commit 请求或 abort 请求。此时，参与者都会在等待超时之后，继续执行事务提交。</p>
+</blockquote>
+<p><strong>3.1 执行提交</strong></p>
+<p>所有参与者均反馈 ack 响应，执行真正的事务提交</p>
+<ol>
+<li>发送提交请求 协调接收到参与者发送的ACK响应，那么他将从预提交状态进入到提交状态。并向所有参与者发送<code>doCommit</code>请求。</li>
+<li>事务提交 参与者接收到<code>doCommit</code>请求之后，执行正式的事务提交。并在完成事务提交之后释放所有事务资源。</li>
+<li>响应反馈 事务提交完之后，向协调者发送ack响应。</li>
+<li>完成事务 协调者接收到所有参与者的ack响应之后，完成事务。</li>
+</ol>
+<p><img src="/images/20190111165648443.dce2da21.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><strong>3.2 中断事务</strong></p>
+<blockquote>
+<p>任何一个参与者反馈 no，或者等待超时后协调者尚无法收到所有参与者的反馈，即中断事务</p>
+</blockquote>
+<ol>
+<li>发送中断请求 如果协调者处于工作状态，向所有参与者发出 abort 请求</li>
+<li>事务回滚 参与者接收到abort请求之后，利用其在阶段二记录的undo信息来执行事务的回滚操作，并在完成回滚之后释放所有的事务资源。</li>
+<li>反馈结果 参与者完成事务回滚之后，向协调者反馈ACK消息</li>
+<li>中断事务 协调者接收到参与者反馈的ACK消息之后，执行事务的中断。</li>
+</ol>
+<p><img src="/images/20190111170100578.34b092d0.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<blockquote>
+<p>注意 </p>
+<p>在doCommit阶段，如果参与者无法及时接收到来自协调者的doCommit或者abort请求时，会在等待超时之后，会继续进行事务的提交。（其实这个应该是基于概率来决定的，当进入第三阶段时，说明参与者在第二阶段已经收到了PreCommit请求，那么协调者产生PreCommit请求的前提条件是他在第二阶段开始之前，收到所有参与者的CanCommit响应都是Yes。（一旦参与者收到了PreCommit，意味他知道大家其实都同意修改了）所以，一句话概括就是，当进入第三阶段时，由于网络超时等原因，虽然参与者没有收到commit或者abort响应，但是他有理由相信：成功提交的几率很大。 ）</p>
+</blockquote>
+<p><strong>优点</strong>：相比二阶段提交，三阶段提交降低了阻塞范围，在等待超时后协调者或参与者会中断事务。避免了协调者单点问题，阶段 3 中协调者出现问题时，参与者会继续提交事务。</p>
+<p><strong>优点</strong>：相比二阶段提交，三阶段提交降低了阻塞范围，在等待超时后协调者或参与者会中断事务。避免了协调者单点问题，阶段 3 中协调者出现问题时，参与者会继续提交事务。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><h4 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h4><p>原子性、一致性、隔离性、持久性</p>
+<h4 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h4><ul>
+<li>一致性：数据在多个副本直接保持一致性，一个副本的更新成功，其他副本也必须更新成功，此特性要求客户端可获取到最新的数据</li>
+<li>可用性：系统在合理时间内返回</li>
+<li>分区容忍性：在分布式网络遇到分区故障时，依然可以提供满足一致性和可用性的服务</li>
+</ul>
+<p>三者不可兼得。并不是说整个系统都只能选择一种CP or AP，根据不同的业务特定选择</p>
+<h4 id="BASE"><a href="#BASE" class="headerlink" title="BASE"></a>BASE</h4><p>基本可用、软状态、最终一致性，采用合适的方式最终一致</p>
+<h4 id="分布式事务协议-1"><a href="#分布式事务协议-1" class="headerlink" title="分布式事务协议"></a>分布式事务协议</h4><ul>
+<li><p>2PC</p>
+<ul>
+<li>优点：实现简单、原理简单</li>
+<li>缺点：数据不一致，脑裂、单点问题、同步阻塞</li>
+</ul>
+</li>
+<li><p>3PC</p>
+<ul>
+<li>优点：减小了参与者阻塞的范围；出现单点问题后，仍然可以提交</li>
+<li>缺点：数据不一致</li>
+</ul>
+</li>
+</ul>
+<h2 id="二、Seata介绍"><a href="#二、Seata介绍" class="headerlink" title="二、Seata介绍"></a>二、Seata介绍</h2><h3 id="1）Seata介绍"><a href="#1）Seata介绍" class="headerlink" title="1）Seata介绍"></a>1）Seata介绍</h3><p>Seata 是一款开源的分布式事务解决方案，致力于提供高性能和简单易用的分布式事务服务。Seata 将为用户提供了 AT、TCC、SAGA 和 XA 事务模式，为用户打造一站式的分布式解决方案。</p>
+<ul>
+<li>对业务无侵入：即减少技术架构上的微服务化所带来的分布式事务问题对业务的侵入</li>
+<li>高性能：减少分布式事务解决方案所带来的性能消耗</li>
+</ul>
+<p>官网地址：<a target="_blank" rel="noopener" href="http://seata.io/%EF%BC%8C%E5%85%B6%E4%B8%AD%E7%9A%84%E6%96%87%E6%A1%A3%E3%80%81%E6%92%AD%E5%AE%A2%E4%B8%AD%E6%8F%90%E4%BE%9B%E4%BA%86%E5%A4%A7%E9%87%8F%E7%9A%84%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E3%80%81%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E3%80%82">http://seata.io/，其中的文档、播客中提供了大量的使用说明、源码分析。</a></p>
+<p>官方站点：</p>
+<ul>
+<li>源码：<a target="_blank" rel="noopener" href="https://github.com/seata/seata">https://github.com/seata/seata</a></li>
+<li>文档：<a target="_blank" rel="noopener" href="http://seata.io/zh-cn/index.html">http://seata.io/zh-cn/index.html</a></li>
+</ul>
+<h3 id="2）Seata架构"><a href="#2）Seata架构" class="headerlink" title="2）Seata架构"></a>2）Seata架构</h3><p>Seata事务管理中有三个重要的角色：</p>
+<ul>
+<li><p><strong>TC (Transaction Coordinator) -</strong> <strong>事务协调者：</strong>维护全局和分支事务的状态，协调全局事务提交或回滚。</p>
+</li>
+<li><p><strong>TM (Transaction Manager) -</strong> <strong>事务管理器：</strong>定义全局事务的范围、开始全局事务、提交或回滚全局事务。</p>
+</li>
+<li><p><strong>RM (Resource Manager) -</strong> <strong>资源管理器：</strong>管理分支事务处理的资源，与TC交谈以注册分支事务和报告分支事务的状态，并驱动分支事务提交或回滚。</p>
+</li>
+</ul>
+<p><strong>UNDO_LOG表：</strong> 回滚日志</p>
+<ol>
+<li><p><code>UNDO_LOG</code>必须在每个业务数据库中创建，用于保存回滚操作数据</p>
+</li>
+<li><p>当全局提交时，<code>UNDO_LOG</code>记录直接删除</p>
+</li>
+<li><p>当全局回滚时，将现有数据撤销，还原至操作前的状态，<a target="_blank" rel="noopener" href="http://seata.io/zh-cn/docs/dev/mode/at-mode.html">详见beforeImage和afterImage</a></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `undo_log` (<br>  `id` <span class="hljs-type">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> AUTO_INCREMENT,<br>  `branch_id` <span class="hljs-type">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>  `xid` <span class="hljs-type">varchar</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>  `context` <span class="hljs-type">varchar</span>(<span class="hljs-number">128</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>  `rollback_info` longblob <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>  `log_status` <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>  `log_created` datetime <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>  `log_modified` datetime <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>  `ext` <span class="hljs-type">varchar</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  <span class="hljs-keyword">PRIMARY</span> KEY (`id`),<br>  <span class="hljs-keyword">UNIQUE</span> KEY `ux_undo_log` (`xid`,`branch_id`)<br>) ENGINE<span class="hljs-operator">=</span>InnoDB AUTO_INCREMENT<span class="hljs-operator">=</span><span class="hljs-number">1</span> <span class="hljs-keyword">DEFAULT</span> CHARSET<span class="hljs-operator">=</span>utf8;<br><br></code></pre></td></tr></table></figure></li>
+</ol>
+<p>整体的架构如图：</p>
+<p><img src="/images/image-20210724172326452.png" srcset="/img/loading.gif" lazyload alt="image-20210724172326452"></p>
+<p>Seata基于上述架构提供了四种不同的分布式事务解决方案：</p>
+<ul>
+<li>XA模式：强一致性分阶段事务模式，牺牲了一定的可用性，无业务侵入（<strong>CP模式</strong>）</li>
+<li>TCC模式：最终一致的分阶段事务模式，有业务侵入（<strong>AP模式</strong>）</li>
+<li>AT模式：最终一致的分阶段事务模式，无业务侵入，也是Seata的默认模式（<strong>AP模式</strong>）</li>
+<li>SAGA模式：长事务模式，有业务侵入（<strong>AP模式</strong>）</li>
+</ul>
+<p>无论哪种方案，都离不开TC，也就是事务的协调者。</p>
+<h2 id="三、部署TC服务器"><a href="#三、部署TC服务器" class="headerlink" title="三、部署TC服务器"></a>三、部署TC服务器</h2><p>Seata的TC服务器架构：</p>
+<p><img src="/images/1655259358571.png" srcset="/img/loading.gif" lazyload alt="1655259358571"></p>
+<h3 id="1）下载"><a href="#1）下载" class="headerlink" title="1）下载"></a>1）下载</h3><p>首先我们要下载seata-server包，地址在<a target="_blank" rel="noopener" href="http://seata.io/zh-cn/blog/download.html">http</a><a target="_blank" rel="noopener" href="http://seata.io/zh-cn/blog/download.html">:&#x2F;&#x2F;seata.io&#x2F;zh-cn&#x2F;blog&#x2F;download</a><a target="_blank" rel="noopener" href="http://seata.io/zh-cn/blog/download.html">.</a><a target="_blank" rel="noopener" href="http://seata.io/zh-cn/blog/download.html">html</a> </p>
+<p><img src="/images/image-20210622202357640.png" srcset="/img/loading.gif" lazyload alt="image-20210622202357640"></p>
+<h3 id="2）解压"><a href="#2）解压" class="headerlink" title="2）解压"></a>2）解压</h3><p>在非中文目录解压缩这个zip包，其目录结构如下：</p>
+<p><img src="/images/image-20210622202515014.png" srcset="/img/loading.gif" lazyload alt="image-20210622202515014"></p>
+<h3 id="3）修改配置"><a href="#3）修改配置" class="headerlink" title="3）修改配置"></a>3）修改配置</h3><p>修改conf目录下的registry.conf文件：</p>
+<p><img src="/images/image-20210622202622874.png" srcset="/img/loading.gif" lazyload alt="image-20210622202622874"></p>
+<p>内容如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs json">registry <span class="hljs-punctuation">&#123;</span><br>  # file 、nacos 、eureka、redis、zk、consul、etcd3、sofa<br>  type = <span class="hljs-string">&quot;nacos&quot;</span><br><br>  nacos <span class="hljs-punctuation">&#123;</span><br>    # seata tc 服务注册到 nacos的服务名称，可以自定义<br>    application = <span class="hljs-string">&quot;seata-tc-server&quot;</span><br>    serverAddr = <span class="hljs-string">&quot;127.0.0.1:8848&quot;</span><br>    group = <span class="hljs-string">&quot;DEFAULT_GROUP&quot;</span><br>    namespace = <span class="hljs-string">&quot;&quot;</span><br>    cluster = <span class="hljs-string">&quot;SH&quot;</span><br>    username = <span class="hljs-string">&quot;nacos&quot;</span><br>    password = <span class="hljs-string">&quot;nacos&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br><br>config <span class="hljs-punctuation">&#123;</span><br>  # file、nacos 、apollo、zk、consul、etcd3<br>  type = <span class="hljs-string">&quot;nacos&quot;</span><br><br>  nacos <span class="hljs-punctuation">&#123;</span><br>    serverAddr = <span class="hljs-string">&quot;127.0.0.1:8848&quot;</span><br>    namespace = <span class="hljs-string">&quot;&quot;</span><br>    group = <span class="hljs-string">&quot;DEFAULT_GROUP&quot;</span><br>    username = <span class="hljs-string">&quot;nacos&quot;</span><br>    password = <span class="hljs-string">&quot;nacos&quot;</span><br>    dataId = <span class="hljs-string">&quot;seataServer.properties&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="4）在nacos添加配置"><a href="#4）在nacos添加配置" class="headerlink" title="4）在nacos添加配置"></a>4）在nacos添加配置</h3><p>特别注意，为了让tc服务的集群可以共享配置，我们选择了nacos作为统一配置中心。因此服务端配置文件seataServer.properties文件需要在nacos中配好。</p>
+<p>格式如下：</p>
+<p><img src="/images/image-20210622203609227.png" srcset="/img/loading.gif" lazyload alt="image-20210622203609227"></p>
+<p>配置内容如下：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># 数据存储方式，db代表数据库</span><br><span class="hljs-attr">store.mode</span>=<span class="hljs-string">db</span><br><span class="hljs-attr">store.db.datasource</span>=<span class="hljs-string">druid</span><br><span class="hljs-attr">store.db.dbType</span>=<span class="hljs-string">mysql</span><br><span class="hljs-attr">store.db.driverClassName</span>=<span class="hljs-string">com.mysql.jdbc.Driver</span><br><span class="hljs-attr">store.db.url</span>=<span class="hljs-string">jdbc:mysql://127.0.0.1:3306/seata?useUnicode=true&amp;rewriteBatchedStatements=true</span><br><span class="hljs-attr">store.db.user</span>=<span class="hljs-string">root</span><br><span class="hljs-attr">store.db.password</span>=<span class="hljs-string">root</span><br><span class="hljs-attr">store.db.minConn</span>=<span class="hljs-string">5</span><br><span class="hljs-attr">store.db.maxConn</span>=<span class="hljs-string">30</span><br><span class="hljs-attr">store.db.globalTable</span>=<span class="hljs-string">global_table</span><br><span class="hljs-attr">store.db.branchTable</span>=<span class="hljs-string">branch_table</span><br><span class="hljs-attr">store.db.queryLimit</span>=<span class="hljs-string">100</span><br><span class="hljs-attr">store.db.lockTable</span>=<span class="hljs-string">lock_table</span><br><span class="hljs-attr">store.db.maxWait</span>=<span class="hljs-string">5000</span><br><span class="hljs-comment"># 事务、日志等配置</span><br><span class="hljs-attr">server.recovery.committingRetryPeriod</span>=<span class="hljs-string">1000</span><br><span class="hljs-attr">server.recovery.asynCommittingRetryPeriod</span>=<span class="hljs-string">1000</span><br><span class="hljs-attr">server.recovery.rollbackingRetryPeriod</span>=<span class="hljs-string">1000</span><br><span class="hljs-attr">server.recovery.timeoutRetryPeriod</span>=<span class="hljs-string">1000</span><br><span class="hljs-attr">server.maxCommitRetryTimeout</span>=<span class="hljs-string">-1</span><br><span class="hljs-attr">server.maxRollbackRetryTimeout</span>=<span class="hljs-string">-1</span><br><span class="hljs-attr">server.rollbackRetryTimeoutUnlockEnable</span>=<span class="hljs-string">false</span><br><span class="hljs-attr">server.undo.logSaveDays</span>=<span class="hljs-string">7</span><br><span class="hljs-attr">server.undo.logDeletePeriod</span>=<span class="hljs-string">86400000</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 客户端与服务端传输方式</span><br><span class="hljs-attr">transport.serialization</span>=<span class="hljs-string">seata</span><br><span class="hljs-attr">transport.compressor</span>=<span class="hljs-string">none</span><br><span class="hljs-comment"># 关闭metrics功能，提高性能</span><br><span class="hljs-attr">metrics.enabled</span>=<span class="hljs-string">false</span><br><span class="hljs-attr">metrics.registryType</span>=<span class="hljs-string">compact</span><br><span class="hljs-attr">metrics.exporterList</span>=<span class="hljs-string">prometheus</span><br><span class="hljs-attr">metrics.exporterPrometheusPort</span>=<span class="hljs-string">9898</span><br></code></pre></td></tr></table></figure>
+
+<p>&#x3D;&#x3D;其中的数据库地址、用户名、密码都需要修改成你自己的数据库信息。&#x3D;&#x3D;</p>
+<h3 id="5）创建数据库表"><a href="#5）创建数据库表" class="headerlink" title="5）创建数据库表"></a>5）创建数据库表</h3><p>特别注意：tc服务在管理分布式事务时，需要记录事务相关数据到数据库中，你需要提前创建好这些表。</p>
+<p>新建一个名为 <strong>seata</strong> 的数据库，运行sql文件：</p>
+<p>这些表主要记录全局事务、分支事务、全局锁信息：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SET</span> NAMES utf8mb4;<br><span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br><br><span class="hljs-comment">-- ----------------------------</span><br><span class="hljs-comment">-- 分支事务表</span><br><span class="hljs-comment">-- ----------------------------</span><br><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> IF <span class="hljs-keyword">EXISTS</span> `branch_table`;<br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `branch_table`  (<br>  `branch_id` <span class="hljs-type">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>  `xid` <span class="hljs-type">varchar</span>(<span class="hljs-number">128</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>  `transaction_id` <span class="hljs-type">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `resource_group_id` <span class="hljs-type">varchar</span>(<span class="hljs-number">32</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `resource_id` <span class="hljs-type">varchar</span>(<span class="hljs-number">256</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `branch_type` <span class="hljs-type">varchar</span>(<span class="hljs-number">8</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `status` tinyint(<span class="hljs-number">4</span>) <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `client_id` <span class="hljs-type">varchar</span>(<span class="hljs-number">64</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `application_data` <span class="hljs-type">varchar</span>(<span class="hljs-number">2000</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `gmt_create` datetime(<span class="hljs-number">6</span>) <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `gmt_modified` datetime(<span class="hljs-number">6</span>) <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  <span class="hljs-keyword">PRIMARY</span> KEY (`branch_id`) <span class="hljs-keyword">USING</span> BTREE,<br>  INDEX `idx_xid`(`xid`) <span class="hljs-keyword">USING</span> BTREE<br>) ENGINE <span class="hljs-operator">=</span> InnoDB <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> <span class="hljs-operator">=</span> utf8 <span class="hljs-keyword">COLLATE</span> <span class="hljs-operator">=</span> utf8_general_ci ROW_FORMAT <span class="hljs-operator">=</span> Compact;<br><br><span class="hljs-comment">-- ----------------------------</span><br><span class="hljs-comment">-- 全局事务表</span><br><span class="hljs-comment">-- ----------------------------</span><br><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> IF <span class="hljs-keyword">EXISTS</span> `global_table`;<br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `global_table`  (<br>  `xid` <span class="hljs-type">varchar</span>(<span class="hljs-number">128</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>  `transaction_id` <span class="hljs-type">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `status` tinyint(<span class="hljs-number">4</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>  `application_id` <span class="hljs-type">varchar</span>(<span class="hljs-number">32</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `transaction_service_group` <span class="hljs-type">varchar</span>(<span class="hljs-number">32</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `transaction_name` <span class="hljs-type">varchar</span>(<span class="hljs-number">128</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `timeout` <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `begin_time` <span class="hljs-type">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `application_data` <span class="hljs-type">varchar</span>(<span class="hljs-number">2000</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `gmt_create` datetime <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `gmt_modified` datetime <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  <span class="hljs-keyword">PRIMARY</span> KEY (`xid`) <span class="hljs-keyword">USING</span> BTREE,<br>  INDEX `idx_gmt_modified_status`(`gmt_modified`, `status`) <span class="hljs-keyword">USING</span> BTREE,<br>  INDEX `idx_transaction_id`(`transaction_id`) <span class="hljs-keyword">USING</span> BTREE<br>) ENGINE <span class="hljs-operator">=</span> InnoDB <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> <span class="hljs-operator">=</span> utf8 <span class="hljs-keyword">COLLATE</span> <span class="hljs-operator">=</span> utf8_general_ci ROW_FORMAT <span class="hljs-operator">=</span> Compact;<br><br><span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+
+<h3 id="6）启动TC服务"><a href="#6）启动TC服务" class="headerlink" title="6）启动TC服务"></a>6）启动TC服务</h3><p>进入bin目录，运行其中的seata-server.bat即可：</p>
+<p><img src="/images/image-20210622205427318.png" srcset="/img/loading.gif" lazyload alt="image-20210622205427318"></p>
+<p>启动成功后，seata-server应该已经注册到nacos注册中心了。</p>
+<p>打开浏览器，访问nacos地址：<a href="http://localhost:8848，然后进入服务列表页面，可以看到seata-tc-server的信息：">http://localhost:8848，然后进入服务列表页面，可以看到seata-tc-server的信息：</a></p>
+<p><img src="/images/image-20210622205901450.png" srcset="/img/loading.gif" lazyload alt="image-20210622205901450"></p>
+<h2 id="四、微服务整合Seata"><a href="#四、微服务整合Seata" class="headerlink" title="四、微服务整合Seata"></a>四、微服务整合Seata</h2><h3 id="1）引入依赖"><a href="#1）引入依赖" class="headerlink" title="1）引入依赖"></a>1）引入依赖</h3><p>首先，在order-service中引入依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--seata--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-alibaba-seata<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">exclusions</span>&gt;</span><br>        <span class="hljs-comment">&lt;!--版本较低，1.3.0，因此排除--&gt;</span> <br>        <span class="hljs-tag">&lt;<span class="hljs-name">exclusion</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>seata-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.seata<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">exclusion</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">exclusions</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.seata<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>seata-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-comment">&lt;!--seata starter 采用1.4.2版本--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;seata.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2）配置TC地址"><a href="#2）配置TC地址" class="headerlink" title="2）配置TC地址"></a>2）配置TC地址</h3><p>在order-service中的application.yml中，配置TC服务信息，通过注册中心nacos，结合服务名称获取TC地址：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">seata:</span><br>  <span class="hljs-attr">registry:</span> <span class="hljs-comment"># TC服务注册中心的配置，微服务根据这些信息去注册中心获取tc服务地址</span><br>    <span class="hljs-attr">type:</span> <span class="hljs-string">nacos</span> <span class="hljs-comment"># 注册中心类型 nacos</span><br>    <span class="hljs-attr">nacos:</span><br>      <span class="hljs-attr">server-addr:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:8848</span> <span class="hljs-comment"># nacos地址</span><br>      <span class="hljs-attr">namespace:</span> <span class="hljs-string">&quot;&quot;</span> <span class="hljs-comment"># namespace，默认为空</span><br>      <span class="hljs-attr">group:</span> <span class="hljs-string">DEFAULT_GROUP</span> <span class="hljs-comment"># 分组，默认是DEFAULT_GROUP</span><br>      <span class="hljs-attr">application:</span> <span class="hljs-string">seata-tc-server</span> <span class="hljs-comment"># seata服务名称</span><br>      <span class="hljs-attr">username:</span> <span class="hljs-string">nacos</span><br>      <span class="hljs-attr">password:</span> <span class="hljs-string">nacos</span><br>  <span class="hljs-attr">tx-service-group:</span> <span class="hljs-string">seata-demo</span> <span class="hljs-comment"># 事务组名称</span><br>  <span class="hljs-attr">service:</span><br>    <span class="hljs-attr">vgroup-mapping:</span> <span class="hljs-comment"># 事务组与cluster的映射关系</span><br>      <span class="hljs-attr">seata-demo:</span> <span class="hljs-string">SH</span><br></code></pre></td></tr></table></figure>
+
+<p>微服务如何根据这些配置寻找TC的地址呢？</p>
+<p>我们知道注册到Nacos中的微服务，确定一个具体实例需要四个信息：</p>
+<ul>
+<li>namespace：命名空间</li>
+<li>group：分组</li>
+<li>application：服务名</li>
+<li>cluster：集群名</li>
+</ul>
+<p>以上四个信息，在刚才的yaml文件中都能找到：</p>
+<p><img src="/images/image-20210724173654258.png" srcset="/img/loading.gif" lazyload alt="image-20210724173654258"></p>
+<p>namespace为空，就是默认的public</p>
+<p>结合起来，TC服务的信息就是：public@DEFAULT_GROUP@seata-tc-server@SH，这样就能确定TC服务集群了。然后就可以去Nacos拉取对应的实例信息了。</p>
+<h3 id="3）其它服务"><a href="#3）其它服务" class="headerlink" title="3）其它服务"></a>3）其它服务</h3><p>其它两个微服务也都参考order-service的步骤来做，完全一样。</p>
+<h2 id="五、Seata使用-XA模式"><a href="#五、Seata使用-XA模式" class="headerlink" title="五、Seata使用-XA模式"></a>五、Seata使用-XA模式</h2><h3 id="1）什么是XA模式"><a href="#1）什么是XA模式" class="headerlink" title="1）什么是XA模式"></a>1）什么是XA模式</h3><p>XA 规范 是 X&#x2F;Open 组织定义的分布式事务处理（DTP，Distributed Transaction Processing）标准，XA 规范 描述了全局的TM与局部的RM之间的接口，几乎所有主流的关系型数据库都对 XA 规范 提供了支持。</p>
+<h3 id="2）两阶段提交"><a href="#2）两阶段提交" class="headerlink" title="2）两阶段提交"></a>2）两阶段提交</h3><p>Two Pharse Commit</p>
+<p>XA是规范，目前主流数据库都实现了这种规范，实现的原理都是基于两阶段提交。</p>
+<p>正常情况：</p>
+<p><img src="/images/image-20210724174102768.png" srcset="/img/loading.gif" lazyload alt="image-20210724174102768"></p>
+<p>异常情况：</p>
+<p><img src="/images/image-20210724174234987.png" srcset="/img/loading.gif" lazyload alt="image-20210724174234987"></p>
+<p>一阶段：</p>
+<ul>
+<li>事务协调者通知每个事物参与者执行本地事务</li>
+<li>本地事务执行完成后报告事务执行状态给事务协调者，此时事务不提交，继续持有数据库锁</li>
+</ul>
+<p>二阶段：</p>
+<ul>
+<li>事务协调者基于一阶段的报告来判断下一步操作<ul>
+<li>如果一阶段都成功，则通知所有事务参与者，提交事务</li>
+<li>如果一阶段任意一个参与者失败，则通知所有事务参与者回滚事务</li>
+</ul>
+</li>
+</ul>
+<h3 id="3）Seata的XA模型"><a href="#3）Seata的XA模型" class="headerlink" title="3）Seata的XA模型"></a>3）Seata的XA模型</h3><p>Seata对原始的XA模式做了简单的封装和改造，以适应自己的事务模型，基本架构如图：</p>
+<p><img src="/images/image-20210724174424070.png" srcset="/img/loading.gif" lazyload alt="image-20210724174424070"></p>
+<p>RM一阶段的工作：</p>
+<p>​	① 注册分支事务到TC</p>
+<p>​	② 执行分支业务sql但不提交</p>
+<p>​	③ 报告执行状态到TC</p>
+<p>TC二阶段的工作：</p>
+<ul>
+<li><p>TC检测各分支事务执行状态</p>
+<p>a.如果都成功，通知所有RM提交事务</p>
+<p>b.如果有失败，通知所有RM回滚事务</p>
+</li>
+</ul>
+<p>RM二阶段的工作：</p>
+<ul>
+<li>接收TC指令，提交或回滚事务</li>
+</ul>
+<h3 id="4）XA模式的优缺点"><a href="#4）XA模式的优缺点" class="headerlink" title="4）XA模式的优缺点"></a>4）XA模式的优缺点</h3><p>XA模式的优点是什么？</p>
+<ul>
+<li>事务的强一致性，满足ACID原则。</li>
+<li>常用关系型数据库都支持，实现简单，并且没有代码侵入</li>
+</ul>
+<p>XA模式的缺点是什么？</p>
+<ul>
+<li>因为一阶段需要锁定数据库资源，等待二阶段结束才释放，性能较差</li>
+<li>依赖关系型数据库实现事务</li>
+</ul>
+<h3 id="5）实现XA模式"><a href="#5）实现XA模式" class="headerlink" title="5）实现XA模式"></a>5）实现XA模式</h3><p>Seata的starter已经完成了XA模式的自动装配，实现非常简单，步骤如下：</p>
+<p>1）修改application.yml文件（每个参与事务的微服务），开启XA模式：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">seata:</span><br>  <span class="hljs-attr">data-source-proxy-mode:</span> <span class="hljs-string">XA</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>2）给发起全局事务的入口方法添加@GlobalTransactional注解:</p>
+<p>本例中是OrderServiceImpl中的create方法.</p>
+<p><img src="/images/image-20210724174859556.png" srcset="/img/loading.gif" lazyload alt="image-20210724174859556"></p>
+<p>3）重启服务并测试</p>
+<p>重启order-service，再次测试，发现无论怎样，三个微服务都能成功回滚。</p>
+<h2 id="六、Seata使用-AT模式【重要】"><a href="#六、Seata使用-AT模式【重要】" class="headerlink" title="六、Seata使用-AT模式【重要】"></a>六、Seata使用-AT模式【重要】</h2><h3 id="1）AT模式简介"><a href="#1）AT模式简介" class="headerlink" title="1）AT模式简介"></a>1）AT模式简介</h3><p>AT模式同样是分阶段提交的事务模型，不过缺弥补了XA模型中资源锁定周期过长的缺陷。</p>
+<h3 id="2）Seata的AT模型"><a href="#2）Seata的AT模型" class="headerlink" title="2）Seata的AT模型"></a>2）Seata的AT模型</h3><p>基本流程图：</p>
+<p><img src="/images/image-20210724175327511.png" srcset="/img/loading.gif" lazyload alt="image-20210724175327511"></p>
+<p>阶段一RM的工作：</p>
+<ul>
+<li>注册分支事务</li>
+<li>记录undo-log（数据快照）</li>
+<li>执行业务sql并提交</li>
+<li>报告事务状态</li>
+</ul>
+<p>阶段二提交时RM的工作：</p>
+<ul>
+<li>删除undo-log即可</li>
+</ul>
+<p>阶段二回滚时RM的工作：</p>
+<ul>
+<li>根据undo-log恢复数据到更新前</li>
+</ul>
+<h3 id="3）流程梳理"><a href="#3）流程梳理" class="headerlink" title="3）流程梳理"></a>3）流程梳理</h3><p>我们用一个真实的业务来梳理下AT模式的原理。</p>
+<p>比如，现在又一个数据库表，记录用户余额：</p>
+<table>
+<thead>
+<tr>
+<th><strong>id</strong></th>
+<th><strong>money</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>100</td>
+</tr>
+</tbody></table>
+<p>其中一个分支业务要执行的SQL为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">update</span> tb_account <span class="hljs-keyword">set</span> money <span class="hljs-operator">=</span> money <span class="hljs-operator">-</span> <span class="hljs-number">10</span> <span class="hljs-keyword">where</span> id <span class="hljs-operator">=</span> <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>AT模式下，当前分支事务执行流程如下：</p>
+<p>一阶段：</p>
+<p>1）TM发起并注册全局事务到TC</p>
+<p>2）TM调用分支事务</p>
+<p>3）分支事务准备执行业务SQL</p>
+<p>4）RM拦截业务SQL，根据where条件查询原始数据，形成快照。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;money&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">100</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>5）RM执行业务SQL，提交本地事务，释放数据库锁。此时 <code>money = 90</code></p>
+<p>6）RM报告本地事务状态给TC</p>
+<p>二阶段：</p>
+<p>1）TM通知TC事务结束</p>
+<p>2）TC检查分支事务状态</p>
+<p>​	 a）如果都成功，则立即删除快照</p>
+<p>​	 b）如果有分支事务失败，需要回滚。读取快照数据（<code>&#123;&quot;id&quot;: 1, &quot;money&quot;: 100&#125;</code>），将快照恢复到数据库。此时数据库再次恢复为100</p>
+<p>流程图：</p>
+<p><img src="/images/image-20210724180722921.png" srcset="/img/loading.gif" lazyload alt="image-20210724180722921"></p>
+<h3 id="4）AT与XA的区别"><a href="#4）AT与XA的区别" class="headerlink" title="4）AT与XA的区别"></a>4）AT与XA的区别</h3><p>简述AT模式与XA模式最大的区别是什么？</p>
+<ul>
+<li>XA模式一阶段不提交事务，锁定资源；AT模式一阶段直接提交，不锁定资源，AT模式的可用性比XA模式更好！</li>
+<li>XA模式依赖数据库机制实现回滚；AT模式利用数据快照实现数据回滚。</li>
+<li>XA模式强一致；AT模式弱一致（最终一致），AT模式一致性比XA更差！</li>
+</ul>
+<h3 id="5）AT的脏写问题"><a href="#5）AT的脏写问题" class="headerlink" title="5）AT的脏写问题"></a>5）AT的脏写问题</h3><p>在多线程并发访问AT模式的分布式事务时，有可能出现脏写问题，如图：</p>
+<p><img src="/images/image-20210724181541234.png" srcset="/img/loading.gif" lazyload alt="image-20210724181541234"></p>
+<p>解决思路就是引入了<strong>全局锁</strong>的概念。在释放DB锁之前，先拿到全局锁。避免同一时刻有另外一个事务来操作当前数据。</p>
+<p><img src="/images/image-20210724181843029.png" srcset="/img/loading.gif" lazyload alt="image-20210724181843029"></p>
+<p>还有一个非seata事务的脏写问题，需要依靠after-image更新后快照来进行脏写校验</p>
+<p><img src="/images/1639236437083.png" srcset="/img/loading.gif" lazyload alt="1639236437083"></p>
+<h3 id="6）AT模式的优缺点"><a href="#6）AT模式的优缺点" class="headerlink" title="6）AT模式的优缺点"></a>6）AT模式的优缺点</h3><p>AT模式的优点：</p>
+<ul>
+<li>一阶段完成直接提交事务，释放数据库资源，性能比较好</li>
+<li>利用全局锁实现读写隔离</li>
+<li>没有代码侵入，框架自动完成回滚和提交</li>
+</ul>
+<p>AT模式的缺点：</p>
+<ul>
+<li>两阶段之间属于软状态，属于最终一致</li>
+<li>框架的快照功能会影响性能，但比XA模式要好很多</li>
+</ul>
+<h3 id="7）实现AT模式"><a href="#7）实现AT模式" class="headerlink" title="7）实现AT模式"></a>7）实现AT模式</h3><p>AT模式中的快照生成、回滚等动作都是由框架自动完成，没有任何代码侵入，因此实现非常简单。</p>
+<p>只不过，AT模式需要一个表来记录全局锁、另一张表来记录数据快照undo_log。</p>
+<p>1）导入数据库表，记录全局锁</p>
+<p>导入课前资料提供的Sql文件：seata-at.sql，其中lock_table导入到TC服务关联的数据库，undo_log表导入到微服务关联的数据库：</p>
+<p><img src="/images/image-20210724182217272.png" srcset="/img/loading.gif" lazyload alt="image-20210724182217272"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SET</span> NAMES utf8mb4;<br><span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br><br><span class="hljs-comment">-- ----------------------------</span><br><span class="hljs-comment">-- Table structure for undo_log</span><br><span class="hljs-comment">-- ----------------------------</span><br><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> IF <span class="hljs-keyword">EXISTS</span> `undo_log`;<br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `undo_log`  (<br>  `branch_id` <span class="hljs-type">BIGINT</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;branch transaction id&#x27;</span>,<br>  `xid` <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">100</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;global transaction id&#x27;</span>,<br>  `context` <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">128</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;undo_log context,such as serialization&#x27;</span>,<br>  `rollback_info` LONGBLOB <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;rollback info&#x27;</span>,<br>  `log_status` <span class="hljs-type">INT</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;0:normal status,1:defense status&#x27;</span>,<br>  `log_created` DATETIME(<span class="hljs-number">6</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;create datetime&#x27;</span>,<br>  `log_modified` DATETIME(<span class="hljs-number">6</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;modify datetime&#x27;</span>,<br>  <span class="hljs-keyword">UNIQUE</span> INDEX `ux_undo_log`(`xid`, `branch_id`) <span class="hljs-keyword">USING</span> BTREE<br>) ENGINE <span class="hljs-operator">=</span> INNODB <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> <span class="hljs-operator">=</span> utf8 <span class="hljs-keyword">COLLATE</span> <span class="hljs-operator">=</span> utf8_general_ci COMMENT <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;AT transaction mode undo table&#x27;</span> ROW_FORMAT <span class="hljs-operator">=</span> COMPACT;<br><br><span class="hljs-comment">-- ----------------------------</span><br><span class="hljs-comment">-- Records of undo_log</span><br><span class="hljs-comment">-- ----------------------------</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p><img src="/images/1667112472680.png" srcset="/img/loading.gif" lazyload alt="1667112472680"> </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- ----------------------------</span><br><span class="hljs-comment">-- Table structure for lock_table</span><br><span class="hljs-comment">-- ----------------------------</span><br><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> IF <span class="hljs-keyword">EXISTS</span> `lock_table`;<br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `lock_table`  (<br>  `row_key` <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">128</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>  `xid` <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">96</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `transaction_id` <span class="hljs-type">BIGINT</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `branch_id` <span class="hljs-type">BIGINT</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>  `resource_id` <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">256</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `table_name` <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">32</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `pk` <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">36</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `gmt_create` DATETIME <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `gmt_modified` DATETIME <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  <span class="hljs-keyword">PRIMARY</span> KEY (`row_key`) <span class="hljs-keyword">USING</span> BTREE,<br>  INDEX `idx_branch_id`(`branch_id`) <span class="hljs-keyword">USING</span> BTREE<br>) ENGINE <span class="hljs-operator">=</span> INNODB <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> <span class="hljs-operator">=</span> utf8 <span class="hljs-keyword">COLLATE</span> <span class="hljs-operator">=</span> utf8_general_ci ROW_FORMAT <span class="hljs-operator">=</span> COMPACT;<br><br><br><span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/images/1667112481574.png" srcset="/img/loading.gif" lazyload alt="1667112481574"> </p>
+<p>2）修改application.yml文件，将事务模式修改为AT模式即可：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">seata:</span><br>  <span class="hljs-attr">data-source-proxy-mode:</span> <span class="hljs-string">AT</span> <span class="hljs-comment"># 默认就是AT</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/images/1667112592878.png" srcset="/img/loading.gif" lazyload alt="1667112592878"></p>
+<p>3）重启服务并测试</p>
+<h2 id="七、Seata使用-TCC模式"><a href="#七、Seata使用-TCC模式" class="headerlink" title="七、Seata使用-TCC模式"></a>七、Seata使用-TCC模式</h2><p>TCC模式与AT模式非常相似，每阶段都是独立事务，不同的是TCC通过人工编码来实现数据恢复。需要实现三个方法：</p>
+<ul>
+<li><p>Try：资源的检测和预留； </p>
+</li>
+<li><p>Confirm：完成资源操作业务；要求 Try 成功 Confirm 一定要能成功。</p>
+</li>
+<li><p>Cancel：预留资源释放，可以理解为try的反向操作。</p>
+</li>
+</ul>
+<h3 id="1）流程分析"><a href="#1）流程分析" class="headerlink" title="1）流程分析"></a>1）流程分析</h3><p>举例，一个扣减用户余额的业务。假设账户A原来余额是100，需要余额扣减30元。</p>
+<ul>
+<li><strong>阶段一（ Try ）</strong>：检查余额是否充足，如果充足则冻结金额增加30元，可用余额扣除30</li>
+</ul>
+<p>初识余额：</p>
+<p><img src="/images/image-20210724182424907.png" srcset="/img/loading.gif" lazyload alt="image-20210724182424907"></p>
+<p>余额充足，可以冻结：</p>
+<p><img src="/images/image-20210724182457951.png" srcset="/img/loading.gif" lazyload alt="image-20210724182457951"></p>
+<p>此时，总金额 &#x3D; 冻结金额 + 可用金额，数量依然是100不变。事务直接提交无需等待其它事务。</p>
+<ul>
+<li>**阶段二（Confirm)**：假如要提交（Confirm），则冻结金额扣减30</li>
+</ul>
+<p>确认可以提交，不过之前可用金额已经扣减过了，这里只要清除冻结金额就好了：</p>
+<p><img src="/images/image-20210724182706011.png" srcset="/img/loading.gif" lazyload alt="image-20210724182706011"></p>
+<p>此时，总金额 &#x3D; 冻结金额 + 可用金额 &#x3D; 0 + 70  &#x3D; 70元</p>
+<ul>
+<li>**阶段二(Cancel)**：如果要回滚（Cancel），则冻结金额扣减30，可用余额增加30</li>
+</ul>
+<p>需要回滚，那么就要释放冻结金额，恢复可用金额：</p>
+<p><img src="/images/image-20210724182810734.png" srcset="/img/loading.gif" lazyload alt="image-20210724182810734"></p>
+<h3 id="2）Seata的TCC模型"><a href="#2）Seata的TCC模型" class="headerlink" title="2）Seata的TCC模型"></a>2）Seata的TCC模型</h3><p>Seata中的TCC模型依然延续之前的事务架构，如图：</p>
+<p><img src="/images/image-20210724182937713.png" srcset="/img/loading.gif" lazyload alt="image-20210724182937713"></p>
+<h3 id="3）TCC的优缺点"><a href="#3）TCC的优缺点" class="headerlink" title="3）TCC的优缺点"></a>3）TCC的优缺点</h3><p>TCC模式的每个阶段是做什么的？</p>
+<ul>
+<li>Try：业务执行，数据备份冻结金额</li>
+<li>Confirm：删除备份的数据（冻结金额）</li>
+<li>Cancel：预留资源的释放（将金额设置为0，状态设置cancel）</li>
+</ul>
+<p>TCC的优点是什么？</p>
+<ul>
+<li>一阶段完成直接提交事务，释放数据库资源，性能好</li>
+<li>相比AT模型，无需生成快照，无需使用全局锁，性能最强</li>
+<li>不依赖数据库事务，而是依赖补偿操作，可以用于非事务型数据库</li>
+</ul>
+<p>TCC的缺点是什么？</p>
+<ul>
+<li>有代码侵入，需要人为编写try、Confirm和Cancel接口，太麻烦（编码成本高）</li>
+<li>软状态，事务是最终一致</li>
+</ul>
+<h3 id="4）事务悬挂和空回滚"><a href="#4）事务悬挂和空回滚" class="headerlink" title="4）事务悬挂和空回滚"></a>4）事务悬挂和空回滚</h3><h4 id="1）空回滚"><a href="#1）空回滚" class="headerlink" title="1）空回滚"></a>1）空回滚</h4><p>当某分支事务的try阶段<strong>阻塞</strong>时，可能导致全局事务超时而触发二阶段的cancel操作。在未执行try操作时先执行了cancel操作，这时cancel不能做回滚，就是<strong>空回滚</strong>。</p>
+<p>如图：</p>
+<p><img src="/images/image-20210724183426891.png" srcset="/img/loading.gif" lazyload alt="image-20210724183426891"></p>
+<p>执行cancel操作时，应当判断try是否已经执行，如果尚未执行，则应该空回滚。</p>
+<h4 id="2）业务悬挂"><a href="#2）业务悬挂" class="headerlink" title="2）业务悬挂"></a>2）业务悬挂</h4><p>对于已经空回滚的业务，之前被阻塞的try操作恢复，继续执行try，就永远不可能confirm或cancel ，事务一直处于中间状态，这就是<strong>业务悬挂</strong>。</p>
+<p>执行try操作时，应当判断cancel是否已经执行过了，如果已经执行，应当阻止空回滚后的try操作，避免悬挂</p>
+<h3 id="5）实现TCC模式"><a href="#5）实现TCC模式" class="headerlink" title="5）实现TCC模式"></a>5）实现TCC模式</h3><p>解决空回滚和业务悬挂问题，必须要记录当前事务状态，是在try、还是cancel？</p>
+<h4 id="1）思路分析"><a href="#1）思路分析" class="headerlink" title="1）思路分析"></a>1）思路分析</h4><p>这里我们定义一张表：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SET</span> NAMES utf8mb4;<br><span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br><br><span class="hljs-comment">-- ----------------------------</span><br><span class="hljs-comment">-- Table structure for account_freeze_tbl</span><br><span class="hljs-comment">-- ----------------------------</span><br><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> IF <span class="hljs-keyword">EXISTS</span> `account_freeze_tbl`;<br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `account_freeze_tbl`  (<br>  `xid` <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">128</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>  `user_id` <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">255</span>) <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `freeze_money` <span class="hljs-type">INT</span>(<span class="hljs-number">11</span>) UNSIGNED <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-number">0</span>,<br>  `state` <span class="hljs-type">INT</span>(<span class="hljs-number">1</span>) <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;事务状态，0:try，1:confirm，2:cancel&#x27;</span>,<br>  <span class="hljs-keyword">PRIMARY</span> KEY (`xid`) <span class="hljs-keyword">USING</span> BTREE<br>) ENGINE <span class="hljs-operator">=</span> INNODB <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> <span class="hljs-operator">=</span> utf8 <span class="hljs-keyword">COLLATE</span> <span class="hljs-operator">=</span> utf8_general_ci ROW_FORMAT <span class="hljs-operator">=</span> COMPACT;<br><br><br><span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;<br><br></code></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ul>
+<li>xid：是全局事务id</li>
+<li>freeze_money：用来记录用户冻结金额</li>
+<li>state：用来记录事务状态</li>
+</ul>
+<p><img src="/images/1667115061157.png" srcset="/img/loading.gif" lazyload alt="1667115061157"> </p>
+<p>那此时，我们的业务开怎么做呢？</p>
+<ul>
+<li>Try业务：<ul>
+<li>记录冻结金额和事务状态到account_freeze表</li>
+<li>扣减account表可用金额</li>
+</ul>
+</li>
+<li>Confirm业务<ul>
+<li>根据xid删除account_freeze表的冻结记录</li>
+</ul>
+</li>
+<li>Cancel业务<ul>
+<li>修改account_freeze表，冻结金额为0，state为2</li>
+<li>修改account表，恢复可用金额</li>
+</ul>
+</li>
+<li>如何判断是否空回滚？<ul>
+<li>cancel业务中，根据xid查询account_freeze，如果为null则说明try还没做，需要空回滚</li>
+</ul>
+</li>
+<li>如何避免业务悬挂？<ul>
+<li>try业务中，根据xid查询account_freeze ，如果已经存在则证明Cancel已经执行，拒绝执行try业务</li>
+</ul>
+</li>
+</ul>
+<p>接下来，我们改造account-service，利用TCC实现余额扣减功能。</p>
+<h4 id="2）声明TCC接口"><a href="#2）声明TCC接口" class="headerlink" title="2）声明TCC接口"></a>2）声明TCC接口</h4><p>TCC的Try、Confirm、Cancel方法都需要在接口中基于注解来声明，</p>
+<p>我们在account-service项目中的<code>cn.itcast.account.service</code>包中新建一个接口，声明TCC三个接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> cn.itcast.account.service;<br><br><span class="hljs-keyword">import</span> io.seata.rm.tcc.api.BusinessActionContext;<br><span class="hljs-keyword">import</span> io.seata.rm.tcc.api.BusinessActionContextParameter;<br><span class="hljs-keyword">import</span> io.seata.rm.tcc.api.LocalTCC;<br><span class="hljs-keyword">import</span> io.seata.rm.tcc.api.TwoPhaseBusinessAction;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * TCC业务接口</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@LocalTCC</span>  <span class="hljs-comment">//标记为TCC业务接口</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">AccountTCCService</span> &#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 从用户账户中扣款 (Try方法)</span><br><span class="hljs-comment">     *  name: try方法名称</span><br><span class="hljs-comment">     *  commitMethod: confirm方法名称</span><br><span class="hljs-comment">     *  rollbackMethod: cancel方法名称</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@TwoPhaseBusinessAction(name = &quot;deduct&quot;,commitMethod = &quot;confirm&quot;,rollbackMethod = &quot;cancel&quot;)</span><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">deduct</span><span class="hljs-params">(<span class="hljs-meta">@BusinessActionContextParameter(paramName = &quot;userId&quot;)</span> String userId,<span class="hljs-meta">@BusinessActionContextParameter(paramName = &quot;money&quot;)</span> <span class="hljs-type">int</span> money)</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 提交接口（Confirm方法）</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">boolean</span> <span class="hljs-title function_">confirm</span><span class="hljs-params">(BusinessActionContext actionContext)</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 回滚接口（Cancal接口）</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">boolean</span> <span class="hljs-title function_">cancel</span><span class="hljs-params">(BusinessActionContext actionContext)</span>;<br>&#125;<br><br><br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="3）编写实现类"><a href="#3）编写实现类" class="headerlink" title="3）编写实现类"></a>3）编写实现类</h4><p>在account-service服务中的<code>cn.itcast.account.service.impl</code>包下新建一个类，实现TCC业务：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> cn.itcast.account.service.impl;<br><br><span class="hljs-keyword">import</span> cn.itcast.account.entity.AccountFreeze;<br><span class="hljs-keyword">import</span> cn.itcast.account.mapper.AccountFreezeMapper;<br><span class="hljs-keyword">import</span> cn.itcast.account.mapper.AccountMapper;<br><span class="hljs-keyword">import</span> cn.itcast.account.service.AccountTCCService;<br><span class="hljs-keyword">import</span> io.seata.core.context.RootContext;<br><span class="hljs-keyword">import</span> io.seata.rm.tcc.api.BusinessActionContext;<br><span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Service;<br><span class="hljs-keyword">import</span> org.springframework.transaction.annotation.Transactional;<br><br><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AccountTCCServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">AccountTCCService</span> &#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> AccountMapper accountMapper;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> AccountFreezeMapper freezeMapper;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-meta">@Transactional</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">deduct</span><span class="hljs-params">(String userId, <span class="hljs-type">int</span> money)</span> &#123;<br>        <span class="hljs-comment">//获取全局事务ID</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">xid</span> <span class="hljs-operator">=</span> RootContext.getXID();<br><br>        <span class="hljs-comment">//如果该事务执行过cancel，无需执行try方法</span><br>        <span class="hljs-comment">//判断冻结金额表，该事务记录余额为0，且为cancel状态，代表该事务执行过cancel方法</span><br>        <span class="hljs-type">AccountFreeze</span> <span class="hljs-variable">dbFreeze</span> <span class="hljs-operator">=</span> freezeMapper.selectById(xid);<br>        <span class="hljs-keyword">if</span>(dbFreeze!=<span class="hljs-literal">null</span> &amp;&amp; dbFreeze.getFreezeMoney().equals(<span class="hljs-number">0</span>) &amp;&amp; dbFreeze.getState().equals(AccountFreeze.State.CANCEL))&#123;<br>            <span class="hljs-comment">//该事务执行过cancel方法，无需执行try方法</span><br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br><br>        <span class="hljs-comment">//先扣减原账户余额</span><br>        accountMapper.deduct(userId,money);<br><br>        <span class="hljs-comment">//再冻结金额</span><br>        <span class="hljs-type">AccountFreeze</span> <span class="hljs-variable">freeze</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AccountFreeze</span>();<br>        freeze.setXid(xid);<br>        freeze.setUserId(userId);<br>        freeze.setFreezeMoney(money);<br>        freeze.setState(AccountFreeze.State.TRY);<br>        freezeMapper.insert(freeze);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-meta">@Transactional</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">confirm</span><span class="hljs-params">(BusinessActionContext actionContext)</span> &#123;<br>        <span class="hljs-comment">//获取全局事务ID</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">xid</span> <span class="hljs-operator">=</span> actionContext.getXid();<br>        <span class="hljs-comment">//删除冻结记录</span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">count</span> <span class="hljs-operator">=</span> freezeMapper.deleteById(xid);<br>        <span class="hljs-keyword">return</span> count&gt;<span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-meta">@Transactional</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">cancel</span><span class="hljs-params">(BusinessActionContext actionContext)</span> &#123;<br>        <span class="hljs-comment">//获取全局事务ID</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">xid</span> <span class="hljs-operator">=</span> actionContext.getXid();<br><br>        <span class="hljs-comment">//根据全局事务ID查询冻结金额记录</span><br>        <span class="hljs-type">AccountFreeze</span> <span class="hljs-variable">freeze</span> <span class="hljs-operator">=</span> freezeMapper.selectById(xid);<br>        <span class="hljs-comment">//获取账户和冻结金额信息</span><br><br>        <span class="hljs-type">String</span> <span class="hljs-variable">userId</span> <span class="hljs-operator">=</span> (String)actionContext.getActionContext(<span class="hljs-string">&quot;userId&quot;</span>);<br><br>        <span class="hljs-comment">//如果该全局事务不存在冻结金额记录，则判断 该事务没有执行try方法</span><br>        <span class="hljs-keyword">if</span>(freeze==<span class="hljs-literal">null</span>)&#123;<br>            <span class="hljs-comment">//如果没有执行try，但执行了cancel，往冻结金额表插入cancel冻结金额</span><br>            <span class="hljs-type">AccountFreeze</span> <span class="hljs-variable">dbFreeze</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AccountFreeze</span>();<br>            dbFreeze.setXid(xid);<br>            dbFreeze.setUserId(userId);<br>            dbFreeze.setFreezeMoney(<span class="hljs-number">0</span>);<br>            dbFreeze.setState(AccountFreeze.State.CANCEL);<br>            freezeMapper.insert(dbFreeze);<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        &#125;<br><br>        <span class="hljs-type">Integer</span> <span class="hljs-variable">freezeMoney</span> <span class="hljs-operator">=</span> freeze.getFreezeMoney();<br>        <span class="hljs-comment">//恢复原账户表余额</span><br>        accountMapper.refund(userId,freezeMoney);<br><br>        <span class="hljs-comment">//修改冻结金额表，金额设置为0，状态设置cancel</span><br>        freeze.setFreezeMoney(<span class="hljs-number">0</span>);<br>        freeze.setState(AccountFreeze.State.CANCEL);<br>        <span class="hljs-type">int</span> <span class="hljs-variable">count</span> <span class="hljs-operator">=</span> freezeMapper.updateById(freeze);<br><br>        <span class="hljs-keyword">return</span> count&gt;<span class="hljs-number">0</span>;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>Controller代码的修改</p>
+<p><img src="/images/1667116558927.png" srcset="/img/loading.gif" lazyload alt="1667116558927"></p>
+<h2 id="八、Seata使用-SAGA模式"><a href="#八、Seata使用-SAGA模式" class="headerlink" title="八、Seata使用-SAGA模式"></a>八、Seata使用-SAGA模式</h2><p>Saga 模式是 Seata 即将开源的长事务解决方案，将由蚂蚁金服主要贡献。</p>
+<p>其理论基础是Hector &amp; Kenneth  在1987年发表的论文<a target="_blank" rel="noopener" href="https://microservices.io/patterns/data/saga.html">Sagas</a>。</p>
+<p>Seata官网对于Saga的指南：<a target="_blank" rel="noopener" href="https://seata.io/zh-cn/docs/user/saga.html">https://seata.io/zh-cn/docs/user/saga.html</a></p>
+<h3 id="1）SAGA模式的原理"><a href="#1）SAGA模式的原理" class="headerlink" title="1）SAGA模式的原理"></a>1）SAGA模式的原理</h3><p>在 Saga 模式下，分布式事务内有多个参与者，每一个参与者都是一个冲正补偿服务，需要用户根据业务场景实现其正向操作和逆向回滚操作。</p>
+<p>分布式事务执行过程中，依次执行各参与者的正向操作，如果所有正向操作均执行成功，那么分布式事务提交。如果任何一个正向操作执行失败，那么分布式事务会去退回去执行前面各参与者的逆向回滚操作，回滚已提交的参与者，使分布式事务回到初始状态。</p>
+<p><img src="/images/image-20210724184846396.png" srcset="/img/loading.gif" lazyload alt="image-20210724184846396"></p>
+<p>Saga也分为两个阶段：</p>
+<ul>
+<li>一阶段：直接提交本地事务</li>
+<li>二阶段：成功则什么都不做；失败则通过编写补偿业务来回滚</li>
+</ul>
+<h3 id="2）SAGA的优缺点"><a href="#2）SAGA的优缺点" class="headerlink" title="2）SAGA的优缺点"></a>2）SAGA的优缺点</h3><p>优点：</p>
+<ul>
+<li>事务参与者可以基于事件驱动实现异步调用，吞吐高</li>
+<li>一阶段直接提交事务，无锁，性能好</li>
+<li>不用编写TCC中的三个阶段，实现简单</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>软状态持续时间不确定，时效性差</li>
+<li>没有锁，没有事务隔离，会有脏写</li>
+</ul>
+<h2 id="九、Seata使用-四种模式对比"><a href="#九、Seata使用-四种模式对比" class="headerlink" title="九、Seata使用-四种模式对比"></a>九、Seata使用-四种模式对比</h2><p>我们从以下几个方面来对比四种实现：</p>
+<ul>
+<li>一致性：能否保证事务的一致性？强一致还是最终一致？</li>
+<li>隔离性：事务之间的隔离性如何？</li>
+<li>代码侵入：是否需要对业务代码改造？</li>
+<li>性能：有无性能损耗？</li>
+<li>场景：常见的业务场景</li>
+</ul>
+<p>如图：</p>
+<p><img src="/images/image-20210724185021819.png" srcset="/img/loading.gif" lazyload alt="image-20210724185021819"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%90%8E%E7%AB%AF/" class="category-chain-item">后端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/java/">#java</a>
+      
+        <a href="/tags/SpringCloud/">#SpringCloud</a>
+      
+        <a href="/tags/Spring/">#Spring</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Seata 分布式事务</div>
+      <div>http://example.com/2022/06/25/Seata 分布式事务/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>QingAn</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年6月25日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/06/25/Ribbon%20%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" title="Ribbon 负载均衡">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Ribbon 负载均衡</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/06/25/Sentinel-%E9%9B%AA%E5%B4%A9%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" title="Sentinel-雪崩问题及解决方案">
+                        <span class="hidden-mobile">Sentinel-雪崩问题及解决方案</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"CUuWA2AIzpwKyFgvwcacCbi4-gzGzoHsz","appKey":"mQkVUzfrR2cCGeAOkvoTiKEY","path":"window.location.pathname","placeholder":"欢迎评论~~","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <i class="iconfont icon-love"></i> <a target="_blank" href="https://qinganwu.github.io/" rel="nofollow noopener noopener"> <span>QingAn</span> </a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
